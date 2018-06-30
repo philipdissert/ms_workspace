@@ -1,4 +1,4 @@
-package edu.kit.cm.PoolManagement;
+package edu.kit.cm.PoolManagement.API;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,11 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ApiController {
 	
-	@GetMapping("/test")
-	public String getTest() {
-		return "NEIN!";
-	}
-	
+
+		
 	@PostMapping("/test")
 	public String postTest() {
 		return "DOCH!";
@@ -25,7 +22,6 @@ public class ApiController {
 		System.out.println(id);
 		return "OUCH!";
 	}
-	
 	
 	@DeleteMapping("/test/{id}")
 	public String deleteTest(@PathVariable long id) {
