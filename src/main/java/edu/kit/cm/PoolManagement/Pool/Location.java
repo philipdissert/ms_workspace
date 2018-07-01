@@ -13,6 +13,10 @@ public class Location{
 		this.yPos = yPos;
 	}
 	
+/**
+ * 
+ * @return String in form <xPos>,<yPos>
+ */
 	public String toString() {
 		String text = "" + this.xPos + "," + this.yPos;
 		return text;

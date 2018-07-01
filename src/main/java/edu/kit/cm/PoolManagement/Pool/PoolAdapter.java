@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +12,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class PoolAdapter implements PoolInterface{
-	List<Room> rooms = new ArrayList<Room>();
-	List<PoolElement> roomElement = new ArrayList<PoolElement>();
-	Pool pool = new Pool(1, rooms, roomElement);
+	private static List<Room> rooms = new ArrayList<Room>();
+	private static List<PoolElement> roomElement = new ArrayList<PoolElement>();
+	private static Pool pool = new Pool(1, rooms, roomElement);
 
 	
 	@Override
@@ -57,14 +58,18 @@ public class PoolAdapter implements PoolInterface{
 				System.out.println("Error in PoolAdapter.getLayout");
 			}
 		}
-			
 		return layout;
 	}
 
 	@Override
-	public void createNewLayout(JSONObject layout) {
-		pool = Pool.createPool(layout);
-
+	public void createNewLayout(JSONObject layout)  throws IllegalArgumentException{
+		
+		try {
+			pool = Pool.createPool(layout);
+		} catch (ParseException e) {
+			throw new IllegalArgumentException();
+		}
+		
 	}
 
 	@Override

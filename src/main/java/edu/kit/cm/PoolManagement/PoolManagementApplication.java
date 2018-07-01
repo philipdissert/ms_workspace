@@ -15,7 +15,6 @@ public class PoolManagementApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PoolManagementApplication.class, args);
 		PoolAdapter p = new PoolAdapter();
-		p.init();
-		System.out.println(p.getLayout());
+		p.init();		
 	}
 }

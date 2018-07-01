@@ -1,5 +1,6 @@
 package edu.kit.cm.PoolManagement.Pool;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,13 @@ public class Pool {
 		this.roomElement = roomElement;
 	}
 	
-	public static Pool createPool (JSONObject json) {
+	/**
+	 * 
+	 * @param json jsnon datei in format {"existingElements":"PC1,...,Room3", "PC1": "2,1", ... ,"Room3":"2,3;3,4"}
+	 * @return pool 
+	 * @throws ParseException if input is in wrong format
+	 */
+	public static Pool createPool (JSONObject json) throws ParseException {
 		List<Room> room = new ArrayList<Room>();
 		List<PoolElement> element = new ArrayList<PoolElement>();
 		String temp = "";
@@ -32,7 +39,7 @@ public class Pool {
 		try {
 			temp = json.getString("existingElements");
 		} catch (JSONException e) {
-			e.printStackTrace();
+			throw new ParseException("Input in wrong format", 42);
 		}
 		String[] elementeArray = temp.split(",");
 		for (int i = 0; i < elementeArray.length; i++) {
@@ -40,8 +47,9 @@ public class Pool {
 			try {
 				parameter = json.getString(elementeArray[i]);
 			} catch (JSONException e) {
-				e.printStackTrace();
+				throw new ParseException("Input in wrong format", 50);
 			}
+			
 			if (PoolParser.parseElementName(elementeArray[i]).equals("Room")) {
 				room.add(Room.getRoom(elementeArray[i], parameter));
 			} else {
