@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.kit.cm.PoolManagement.Pool.PoolAdapter;
+import edu.kit.cm.PoolManagement.Pool.PoolController;
 import edu.kit.cm.PoolManagement.Pool.PoolInterface;
 
 @RestController
@@ -21,7 +21,7 @@ public class LayoutAPI {
 	
 	@GetMapping("/layout")
 	public String getLayout() {
-		PoolInterface pool = new PoolAdapter();
+		PoolInterface pool = new PoolController();
 		return pool.getLayout().toString();
 	}
 	

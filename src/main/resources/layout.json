@@ -1,5 +1,5 @@
 {
-"existingElements":"Room0,Room1,Room2,Room3,PC0,PC1,PC2,PC3,PC4,PC5,PC6,PC7,PC8,PC9,Laptop0,Laptop1",
+"availableElements":"Room0,Room1,Room2,Room3,PC0,PC1,PC2,PC3,PC4,PC5,PC6,PC7,PC8,PC9,Laptop0,Laptop1",
 "Room0":"1,1;2,2",
 "Room1":"1,2;3,3",
 "Room2":"3,3;1,2",

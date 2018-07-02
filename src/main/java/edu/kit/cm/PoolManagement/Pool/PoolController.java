@@ -11,7 +11,7 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class PoolAdapter implements PoolInterface{
+public class PoolController implements PoolInterface{
 	private static List<Room> rooms = new ArrayList<Room>();
 	private static List<PoolElement> roomElement = new ArrayList<PoolElement>();
 	private static Pool pool = new Pool(1, rooms, roomElement);
@@ -25,14 +25,14 @@ public class PoolAdapter implements PoolInterface{
 			Room room = pool.getRooms().get(i);
 			
 			if(existingElements.length() == 0) {
-				existingElements += "Room" + room.getId();
+				existingElements += room.getName() + room.getId();
 			}
 			else {
-				existingElements += ",Room" + room.getId();
+				existingElements += ","+ room.getName() + room.getId();
 			}
 			
 			try {
-				layout.put("Room" + room.getId(), room.locationToString());
+				layout.put(room.getName() + room.getId(), room.locationToString());
 			} catch (JSONException ex) {
 				try {
 					layout.put("Error", "in PoolAdapter");
@@ -52,7 +52,7 @@ public class PoolAdapter implements PoolInterface{
 			try {
 				layout.put(element.getName() + element.getId(), element.getLocation().toString());
 				if (i == pool.getRoomElement().size() - 1) {
-					layout.put("existingElements", existingElements);
+					layout.put(PoolElement.AVAILABLE_ELEMENTS, existingElements);
 				}
 			} catch (JSONException e) {
 				System.out.println("Error in PoolAdapter.getLayout");

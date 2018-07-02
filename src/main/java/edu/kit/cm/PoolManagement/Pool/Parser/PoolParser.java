@@ -1,4 +1,4 @@
-package edu.kit.cm.PoolManagement.Parser;
+package edu.kit.cm.PoolManagement.Pool.Parser;
 
 import java.text.ParseException;
 import java.util.ArrayList;

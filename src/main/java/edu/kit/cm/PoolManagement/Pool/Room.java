@@ -3,10 +3,12 @@ package edu.kit.cm.PoolManagement.Pool;
 import java.text.ParseException;
 import java.util.List;
 
-import edu.kit.cm.PoolManagement.Parser.PoolParser;
+import edu.kit.cm.PoolManagement.Pool.Parser.PoolParser;
 import lombok.Getter;
 
 public class Room extends PoolElement{
+	public static final String ELEMENT_NAME = "Room";
+	
 	@Getter
 	private Location location2;
 
@@ -14,7 +16,7 @@ public class Room extends PoolElement{
 		this.location = location1;
 		this.location2 = location2;
 		this.id = id;
-		this.elementNamen = "Room";
+		this.elementNamen = ELEMENT_NAME;
 	}
 	
 	/**

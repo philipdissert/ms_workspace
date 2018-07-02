@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class LearningDesk extends PoolElement{
+	public static final String ELEMENT_NAME = "PC";
+	
 	@Getter @Setter
 	private LearningDeskState state;
 	@Getter
@@ -14,7 +16,7 @@ public class LearningDesk extends PoolElement{
 		this.id = id;
 		this.hasPc = hasPC;
 		if (hasPC) {
-			this.elementNamen = "PC";	
+			this.elementNamen = ELEMENT_NAME;	
 		} else  {
 			this.elementNamen = "Laptop";
 		}

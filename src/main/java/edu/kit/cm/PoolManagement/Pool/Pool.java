@@ -7,7 +7,7 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import edu.kit.cm.PoolManagement.Parser.PoolParser;
+import edu.kit.cm.PoolManagement.Pool.Parser.PoolParser;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,7 +27,7 @@ public class Pool {
 	
 	/**
 	 * 
-	 * @param json jsnon datei in format {"existingElements":"PC1,...,Room3", "PC1": "2,1", ... ,"Room3":"2,3;3,4"}
+	 * @param json json datei in format {"existingElements":"PC1,...,Room3", "PC1": "2,1", ... ,"Room3":"2,3;3,4"}
 	 * @return pool 
 	 * @throws ParseException if input is in wrong format
 	 */
@@ -37,7 +37,7 @@ public class Pool {
 		String temp = "";
 		
 		try {
-			temp = json.getString("existingElements");
+			temp = json.getString(PoolElement.AVAILABLE_ELEMENTS);
 		} catch (JSONException e) {
 			throw new ParseException("Input in wrong format", 42);
 		}
@@ -50,7 +50,7 @@ public class Pool {
 				throw new ParseException("Input in wrong format", 50);
 			}
 			
-			if (PoolParser.parseElementName(elementeArray[i]).equals("Room")) {
+			if (PoolParser.parseElementName(elementeArray[i]).equals(Room.ELEMENT_NAME)) {
 				room.add(Room.getRoom(elementeArray[i], parameter));
 			} else {
 				element.add(PoolElement.getPoolElement(elementeArray[i], parameter));
