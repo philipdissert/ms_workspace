@@ -8,55 +8,58 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import lombok.Getter;
 
 public class PoolController implements PoolInterface{
 	private static List<Room> rooms = new ArrayList<Room>();
 	private static List<PoolElement> roomElement = new ArrayList<PoolElement>();
+	@Getter
 	private static Pool pool = new Pool(1, rooms, roomElement);
 
 	
 	@Override
 	public JSONObject getLayout()  {
 		JSONObject layout = new JSONObject();
-		String existingElements = "";
-		for(int i = 0; i < pool.getRooms().size(); i++) {
-			Room room = pool.getRooms().get(i);
-			
-			if(existingElements.length() == 0) {
-				existingElements += room.getName() + room.getId();
-			}
-			else {
-				existingElements += ","+ room.getName() + room.getId();
-			}
-			
-			try {
-				layout.put(room.getName() + room.getId(), room.locationToString());
-			} catch (JSONException ex) {
-				try {
-					layout.put("Error", "in PoolAdapter");
-				} catch (JSONException e) {
-				}
-			}
-		}
+		JSONArray elements = new JSONArray();	
+		JSONArray rooms = new JSONArray();
 		
 		for(int i = 0; i < pool.getRoomElement().size(); i++) {
-			PoolElement element = pool.getRoomElement().get(i);
-			if(existingElements.length() == 0) {
-				existingElements += element.getName() + element.getId();
-			}
-			else {
-				existingElements += "," + element.getName() + element.getId();
-			}
+			PoolElement poolElement = pool.getRoomElement().get(i);
+			
+			JSONObject element = new JSONObject();
 			try {
-				layout.put(element.getName() + element.getId(), element.getLocation().toString());
-				if (i == pool.getRoomElement().size() - 1) {
-					layout.put(PoolElement.AVAILABLE_ELEMENTS, existingElements);
-				}
+				element.put("id", poolElement.getId());
+				element.put("pos", poolElement.getLocation().toString());
+				element.put("type", poolElement.getName());				
 			} catch (JSONException e) {
-				System.out.println("Error in PoolAdapter.getLayout");
+				e.printStackTrace();
 			}
+			
+			elements.put(element);
+		}
+
+		for(int i = 0; i < pool.getRooms().size(); i++) {
+			Room roomElement = pool.getRooms().get(i);
+			
+			JSONObject room = new JSONObject();
+			try {
+				room.put("id", roomElement.getId());
+				room.put("pos1", roomElement.getLocation1().toString());
+				room.put("pos2", roomElement.getLocation2().toString());				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			rooms.put(room);
+		}
+		try {
+			layout.put(PoolElement.ELEMENTS, elements);
+			layout.put(Room.ROOMS, rooms);
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
 		return layout;
 	}
@@ -85,7 +88,6 @@ public class PoolController implements PoolInterface{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
         try {
 			JSONObject obj = new JSONObject(text);
 			createNewLayout(obj);

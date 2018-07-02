@@ -8,7 +8,7 @@ import lombok.Setter;
 
 public abstract class PoolElement {
 	
-	public static final String AVAILABLE_ELEMENTS = "availableElements";
+	public static final String ELEMENTS = "poolElements";
 	
 	@Getter
 	protected int id;
@@ -27,11 +27,11 @@ public abstract class PoolElement {
 	 * @return RoomElement
 	 * @throws ParseException if Input wasn't in the correct format
 	 */
-	public static PoolElement getPoolElement(String name, String parameter) throws ParseException {
+	public static PoolElement getPoolElement(String type, int id, Location location) throws ParseException {
 		PoolElement output = null;
-		switch(PoolParser.parseElementName(name)) {
-		case LearningDesk.ELEMENT_NAME: output = new LearningDesk(PoolParser.parseLocation(parameter), PoolParser.parseId(name), true); break;
-		case "Laptop": output = new LearningDesk(PoolParser.parseLocation(parameter), PoolParser.parseId(name), false); break;
+		switch(type) {
+		case LearningDeskPc.ELEMENT_NAME: output = new LearningDeskPc(location, id); break;
+		case LearningDeskLaptop.ELEMENT_NAME: output = new LearningDeskLaptop(location, id); break;
 		}
 		return output;
 	}

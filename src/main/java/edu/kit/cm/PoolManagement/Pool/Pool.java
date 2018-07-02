@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,28 +35,32 @@ public class Pool {
 	public static Pool createPool (JSONObject json) throws ParseException {
 		List<Room> room = new ArrayList<Room>();
 		List<PoolElement> element = new ArrayList<PoolElement>();
-		String temp = "";
+		JSONArray jsonArray;
 		
 		try {
-			temp = json.getString(PoolElement.AVAILABLE_ELEMENTS);
+			jsonArray = json.getJSONArray(PoolElement.ELEMENTS);
+			for (int i = 0; i < jsonArray.length(); i++) {
+				JSONObject jsonObject = jsonArray.getJSONObject(i);
+				Location location = PoolParser.parseLocation(jsonObject.getString("pos"));
+				int id = jsonObject.getInt("id");
+				String type = jsonObject.getString("type");					
+				element.add(PoolElement.getPoolElement(type, id, location));
+			}
+			
+			jsonArray = json.getJSONArray(Room.ROOMS);	
+			for (int i = 0; i < jsonArray.length(); i++) {
+
+				JSONObject jsonObject = jsonArray.getJSONObject(i);
+				Location location1 = PoolParser.parseLocation(jsonObject.getString("pos1"));
+				Location location2 = PoolParser.parseLocation(jsonObject.getString("pos2"));
+				int id = jsonObject.getInt("id");			
+				room.add(new Room(id, location1, location2));
+			}
+			
 		} catch (JSONException e) {
 			throw new ParseException("Input in wrong format", 42);
 		}
-		String[] elementeArray = temp.split(",");
-		for (int i = 0; i < elementeArray.length; i++) {
-			String parameter = "";
-			try {
-				parameter = json.getString(elementeArray[i]);
-			} catch (JSONException e) {
-				throw new ParseException("Input in wrong format", 50);
-			}
-			
-			if (PoolParser.parseElementName(elementeArray[i]).equals(Room.ELEMENT_NAME)) {
-				room.add(Room.getRoom(elementeArray[i], parameter));
-			} else {
-				element.add(PoolElement.getPoolElement(elementeArray[i], parameter));
-			}
-		}			
+		
 		return new Pool(1, room, element);
 	}
 }
