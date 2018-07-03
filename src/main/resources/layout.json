@@ -1,7 +1,20 @@
 
 
 {
-"poolElements":[{"pos":"1,1","id":"1","type":"PC"},{"pos":"2,1","id":"2","type":"Laptop"},{"pos":"3,1","id":"3","type":"PC"}],
-"rooms":[{"pos1":"1,1","pos2":"1,1","id":"1","doors":[{"pos":"x,y","length":"10"},{"pos":"x,y","length":"5"}]},
-{"pos1":"1,1","pos2":"1,1","id":"1","doors":[{"pos":"x,y","length":"10"},{"pos":"x,y","length":"5"}]}]
+"poolElements":[
+{"pos":"1,1","id":"1","type":"PC"},
+{"pos":"2,1","id":"2","type":"Laptop"},
+{"pos":"3,1","id":"3","type":"PC"}
+],
+"rooms":[
+{"pos1":"1,1","pos2":"1,1","id":"1","doors":[
+											{"pos":"1,2","length":"10"},
+											{"pos":"3,5","length":"5"}
+											]},
+
+{"pos1":"1,1","pos2":"1,1","id":"1","doors":[
+											{"pos":"2,7","length":"10"},
+											{"pos":"9,7","length":"5"}
+											]}
+]
 }

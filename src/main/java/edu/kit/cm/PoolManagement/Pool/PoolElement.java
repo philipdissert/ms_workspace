@@ -2,7 +2,6 @@ package edu.kit.cm.PoolManagement.Pool;
 
 import java.text.ParseException;
 
-import edu.kit.cm.PoolManagement.Pool.Parser.PoolParser;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,7 +26,7 @@ public abstract class PoolElement {
 	 * @return RoomElement
 	 * @throws ParseException if Input wasn't in the correct format
 	 */
-	public static PoolElement getPoolElement(String type, int id, Location location) throws ParseException {
+	public static PoolElement getPoolElement(String type, int id, Location location) {
 		PoolElement output = null;
 		switch(type) {
 		case LearningDeskPc.ELEMENT_NAME: output = new LearningDeskPc(location, id); break;

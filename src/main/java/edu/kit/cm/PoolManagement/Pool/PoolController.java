@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +48,17 @@ public class PoolController implements PoolInterface{
 			try {
 				room.put("id", roomElement.getId());
 				room.put("pos1", roomElement.getLocation1().toString());
-				room.put("pos2", roomElement.getLocation2().toString());				
+				room.put("pos2", roomElement.getLocation2().toString());	
+				
+				JSONArray doors= new JSONArray();
+				for (int k = 0; k < roomElement.getDoors().size(); k++) {					
+					JSONObject door = new JSONObject();
+					door.put("pos", roomElement.getDoors().get(k).getLocation());
+					door.put("length", roomElement.getDoors().get(k).getLength());
+					doors.put(door);
+				}
+				room.put(Door.DOORS, doors);
+				
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -66,13 +75,7 @@ public class PoolController implements PoolInterface{
 
 	@Override
 	public void createNewLayout(JSONObject layout)  throws IllegalArgumentException{
-		
-		try {
-			pool = Pool.createPool(layout);
-		} catch (ParseException e) {
-			throw new IllegalArgumentException();
-		}
-		
+			pool = Pool.createPool(layout);		
 	}
 
 	@Override
