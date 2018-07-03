@@ -1,4 +1,4 @@
-package edu.kit.cm.PoolManagement.API;
+package edu.kit.cm.PoolManagement.controller;
 
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.kit.cm.PoolManagement.Pool.PoolController;
-import edu.kit.cm.PoolManagement.Pool.PoolInterface;
+import cucumber.deps.com.thoughtworks.xstream.core.util.Pool;
+import edu.kit.cm.PoolManagement.Pool.ApplicationServices.PoolController;
 
 @RestController
-public class LayoutAPI {
+public class LayoutAPIController {
 
 //    private static final String JSON = MediaType.APPLICATION_JSON_VALUE;
 //    private static final String JSON_UTF8 = MediaType.APPLICATION_JSON_UTF8_VALUE;
@@ -21,12 +21,19 @@ public class LayoutAPI {
 	
 	@GetMapping("/layout")
 	public String getLayout() {
-		PoolInterface pool = new PoolController();
-		return pool.getLayout().toString();
+		PoolController poolController = new PoolController();
+		poolController.init();
+		//return poolController.getLayout().toJSON();
+		return poolController.getLayout().toJSON().toString();
+		//return poolController.getLayout().toJSON();
+	}
+	@GetMapping("/")
+	public String asd() {
+		return "asdf";
 	}
 	
 	@PutMapping("/layout")
 	public String getTest() {		
-		return "NEIN!";
+		return "asdfas";
 	}
 }
