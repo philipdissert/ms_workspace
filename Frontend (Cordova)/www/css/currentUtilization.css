@@ -1,0 +1,22 @@
+
+.square {
+	border: solid 1px #000;
+  width: 6.25%;
+	height: 6vw;
+	float: left;
+	background: #fff;
+  display:block;
+	background-size: contain;
+}
+
+.span {
+	vertical-align:top;
+	font-size: 0.8vw;
+}
+
+.image {
+}
+
+h1 {
+	color: white;
+}
