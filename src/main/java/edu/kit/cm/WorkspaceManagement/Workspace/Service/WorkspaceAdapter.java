@@ -22,37 +22,23 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter@Setter@ToString
 public class WorkspaceAdapter {
+
+	private List<Workspace> workspace;
+	private int activeWorkspace;
 	
-	@Inject
-	private Workspace workspace;
-	
-	private PoolElement createPoolElement(int id, String type) {
-		switch(type) {
-			case "PC": 			return new LearningDesk(id, new Computer());
-			case "Laptop": 		return new LearningDesk(id);
-			case "wap": 		return new WirlessAccessPoint(id);
-			case "printer":		return new Printer(id);	
-			default : 			return null;
-		}
+	public WorkspaceAdapter() {
+		this.workspace = new ArrayList<Workspace>();
+		this.activeWorkspace = 0;
 	}
 	
-	private Location parseLocation(String pos) {		
+	public void addLayout(JSONObject json) {
+		Workspace newWorkspace = new Workspace();
+		List<PoolElement> poolElements = newWorkspace.getPoolElements();
+		List<Room>rooms = newWorkspace.getRooms();
+		
 		try {
-			String[] temp = pos.split(",");		
-			return new Location(Long.parseLong(temp[0]),Long.parseLong(temp[1]));
-		} catch(NumberFormatException e) {
-			throw new IllegalArgumentException();
-		}
-	}
-	
-	public void change(JSONObject json) {
-		workspace = new Workspace();
-		List<PoolElement> poolElements = workspace.getPoolElements();
-		List<Room>rooms = workspace.getRooms();
-		try {
-			JSONArray pElements = json.getJSONArray("poolElements");			
+			JSONArray pElements = json.getJSONArray("poolElements");
 			for(int i = 0; i<pElements.length();i++) {
 				Location location = parseLocation(pElements.getJSONObject(i).getString("pos"));
 				int id = pElements.getJSONObject(i).getInt("id");
@@ -61,8 +47,7 @@ public class WorkspaceAdapter {
 				PoolElement poolElement = createPoolElement(id, type);
 				poolElement.setLocation(location);
 				poolElements.add(poolElement);
-			}
-			
+			}			
 			JSONArray pRooms = json.getJSONArray("rooms");
 			for(int i = 0; i<pRooms.length(); i++) {
 				Location pos1 = parseLocation(pRooms.getJSONObject(i).getString("pos1"));
@@ -83,16 +68,35 @@ public class WorkspaceAdapter {
 				rooms.add(room);
 			}
 		} catch (JSONException e) {
-			e.printStackTrace();//Falsches Format
+			throw new IllegalArgumentException();
+		}
+		workspace.add(newWorkspace);
+	}
+	
+	public void setActiveLayout(int id) {
+		if (getWorkspaceIdList().contains(id)) {
+			this.activeWorkspace = getWorkspaceIdList().indexOf(id);
 		}
 	}
 	
-	public JSONObject toJSON() {
+	public JSONArray getLayoutList() {
+		JSONArray jsonArray = new JSONArray();
+		getWorkspaceIdList().forEach(id -> {
+			jsonArray.put(id);
+		});
+		return jsonArray;
+	}
+	
+	public JSONObject getLayout() {
+		return getLayout(activeWorkspace);
+	}
+	
+	public JSONObject getLayout(int index) {
 		JSONObject json = new JSONObject();
 		JSONArray poolElementJSArray = new JSONArray();
 		JSONArray roomsJS = new JSONArray();
 		try {
-			for(PoolElement poolElement : workspace.getPoolElements()) {
+			for(PoolElement poolElement : workspace.get(index).getPoolElements()) {
 				JSONObject element = new JSONObject();
 				element.put("id",poolElement.getId());
 				element.put("pos", poolElement.getLocation().toString());
@@ -100,7 +104,7 @@ public class WorkspaceAdapter {
 				poolElementJSArray.put(element);
 			}
 			
-			for(Room room: workspace.getRooms()) {
+			for(Room room: workspace.get(index).getRooms()) {
 				JSONObject roomJS = new JSONObject();
 				roomJS.put("pos1", room.getPos1().toString());
 				roomJS.put("pos2", room.getPos2().toString());
@@ -120,5 +124,34 @@ public class WorkspaceAdapter {
 			e.printStackTrace();
 		}
 		return json;
-	}	
+	}
+	
+	
+	
+	private List<Integer> getWorkspaceIdList() {
+		List<Integer> output = new ArrayList<Integer>();
+		workspace.forEach(ws -> {
+			output.add(ws.getId());
+		});
+		return output;
+	}
+	
+	private PoolElement createPoolElement(int id, String type) {
+		switch(type) {
+			case "PC": 			return new LearningDesk(id, new Computer());
+			case "Laptop": 		return new LearningDesk(id);
+			case "wap": 		return new WirlessAccessPoint(id);
+			case "printer":		return new Printer(id);	
+			default : 			return null;
+		}
+	}
+	
+	private Location parseLocation(String pos) {		
+		try {
+			String[] temp = pos.split(",");		
+			return new Location(Long.parseLong(temp[0]),Long.parseLong(temp[1]));
+		} catch(NumberFormatException e) {
+			throw new IllegalArgumentException();
+		}
+	}
 }

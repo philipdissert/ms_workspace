@@ -8,10 +8,10 @@ import lombok.Setter;
 
 @Getter@Setter
 public class PoolController{
-	private WorkspaceAdapter layout;
+	
 	
 	//Veraltet
-	public void init() {
+	public static void init(WorkspaceAdapter layout) {
 		String text = "{\n" + 
 				"\"poolElements\":[\n" + 
 				"{\"pos\":\"1,1\",\"id\":\"1\",\"type\":\"PC\"},\n" + 
@@ -32,8 +32,8 @@ public class PoolController{
 				"}";
         try {
 			JSONObject obj = new JSONObject(text);
-			layout = new WorkspaceAdapter();
-			layout.change(obj);
+			layout.addLayout(obj);
+			layout.addLayout(obj);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
