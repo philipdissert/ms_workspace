@@ -15,15 +15,11 @@ import lombok.Setter;
 @Getter@Setter
 public class Pool extends Room {
 	
-	private List<LearningDesk> learningDesks;
+	private List<PoolElement> poolElements;
 	private List<Room> rooms;
-	private List<Printer> printer;
-	private List<WirlessAccessPoint> wirlessAccessPoints;
 	
 	public Pool() {
-		learningDesks = new ArrayList<>();
+		poolElements = new ArrayList<>();
 		rooms = new ArrayList<>();
-		printer = new ArrayList<>();
-		wirlessAccessPoints = new ArrayList<>();
 	}
 }

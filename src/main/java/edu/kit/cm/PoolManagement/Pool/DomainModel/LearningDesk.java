@@ -1,7 +1,5 @@
 package edu.kit.cm.PoolManagement.Pool.DomainModel;
 
-import java.text.ParseException;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,6 +25,10 @@ public class LearningDesk extends PoolElement {
 		} else {
 			return false;
 		}
+	}
+	
+	public String getName() {
+		return this.getType()+":"+this.getId();
 	}
 	
 	public String getType() {

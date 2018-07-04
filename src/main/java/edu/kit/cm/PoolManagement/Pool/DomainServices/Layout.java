@@ -10,21 +10,32 @@ import org.json.JSONObject;
 import edu.kit.cm.PoolManagement.Pool.DomainModel.Computer;
 import edu.kit.cm.PoolManagement.Pool.DomainModel.LearningDesk;
 import edu.kit.cm.PoolManagement.Pool.DomainModel.Location;
+import edu.kit.cm.PoolManagement.Pool.DomainModel.Pool;
 import edu.kit.cm.PoolManagement.Pool.DomainModel.PoolElement;
 import edu.kit.cm.PoolManagement.Pool.DomainModel.Printer;
 import edu.kit.cm.PoolManagement.Pool.DomainModel.WirlessAccessPoint;
 import edu.kit.cm.PoolManagement.linkedContextes.Door;
 import edu.kit.cm.PoolManagement.linkedContextes.Room;
+import lombok.Getter;
+import lombok.Setter;
 
-
+@Getter@Setter
 public class Layout {
+	
+	private Pool pool;
+	
+	public Layout() {
+		pool = new Pool();
+	}
+	
+	
 	@Override
 	public String toString() {
-		return "Layout [poolElements=" + poolElements + ", rooms=" + rooms + "]";
+		return "Layout [poolElements=" + pool.getPoolElements() + ", rooms=" + pool.getRooms() + "]";
 	}
 
-	private List<PoolElement> poolElements;
-	private List<Room> rooms; 
+//	private List<PoolElement> poolElements;
+//	private List<Room> rooms;
 	
 	private PoolElement createPoolElement(int id, String type) {
 		switch(type) {
@@ -32,7 +43,7 @@ public class Layout {
 			case "Laptop": 		return new LearningDesk(id);
 			case "wap": 		return new WirlessAccessPoint(id);
 			case "printer":		return new Printer(id);	
-			default : return null;
+			default : 			return null;
 		}
 	}
 	
@@ -45,9 +56,10 @@ public class Layout {
 		}
 	}
 	
-	public Layout(JSONObject json) {
-		poolElements = new ArrayList<>();
-		rooms = new ArrayList<>();
+	public void change(JSONObject json) {
+		pool = new Pool();
+		List<PoolElement> poolElements = pool.getPoolElements();
+		List<Room>rooms = pool.getRooms();
 		try {
 			JSONArray pElements = json.getJSONArray("poolElements");			
 			for(int i = 0; i<pElements.length();i++) {
@@ -90,7 +102,7 @@ public class Layout {
 		JSONArray roomsJS = new JSONArray();
 		System.out.println("test"+poolElementJSArray);
 		try {
-			for(PoolElement poolElement : poolElements) {
+			for(PoolElement poolElement : pool.getPoolElements()) {
 				JSONObject element = new JSONObject();
 				element.put("id",poolElement.getId());
 				element.put("pos", poolElement.getLocation().toString());
@@ -98,7 +110,7 @@ public class Layout {
 				poolElementJSArray.put(element);
 			}
 			
-			for(Room room: rooms) {
+			for(Room room: pool.getRooms()) {
 				JSONObject roomJS = new JSONObject();
 				roomJS.put("pos1", room.getPos1().toString());
 				roomJS.put("pos2", room.getPos2().toString());
@@ -117,13 +129,6 @@ public class Layout {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		
-		poolElements.forEach((x) -> {
-			x.getId();
-			x.getLocation();
-			x.getType();
-		});
-		System.out.println(json.toString());
 		return json;
 	}	
 }
