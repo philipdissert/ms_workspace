@@ -1,9 +1,10 @@
-package edu.kit.cm.PoolManagement.Pool.DomainModel;
+package edu.kit.cm.WorkspaceManagement.Workspace.Domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Getter@Setter
+@Getter@Setter@ToString
 public class PoolElement {
 	private Location location;
 	private int id;
@@ -12,10 +13,5 @@ public class PoolElement {
 	public PoolElement(int id, String type) {
 		this.id = id;
 		this.type = type;
-	}
-
-	@Override
-	public String toString() {
-		return "PoolElement [location=" + location + ", id=" + id + ", type=" + type + "]";
 	}
 }

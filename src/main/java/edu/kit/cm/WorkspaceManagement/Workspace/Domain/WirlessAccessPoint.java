@@ -1,4 +1,4 @@
-package edu.kit.cm.PoolManagement.Pool.DomainModel;
+package edu.kit.cm.WorkspaceManagement.Workspace.Domain;
 
 import java.util.List;
 

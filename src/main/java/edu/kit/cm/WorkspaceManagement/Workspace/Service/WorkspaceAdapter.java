@@ -1,41 +1,32 @@
-package edu.kit.cm.PoolManagement.Pool.DomainServices;
+package edu.kit.cm.WorkspaceManagement.Workspace.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import edu.kit.cm.PoolManagement.Pool.DomainModel.Computer;
-import edu.kit.cm.PoolManagement.Pool.DomainModel.LearningDesk;
-import edu.kit.cm.PoolManagement.Pool.DomainModel.Location;
-import edu.kit.cm.PoolManagement.Pool.DomainModel.Pool;
-import edu.kit.cm.PoolManagement.Pool.DomainModel.PoolElement;
-import edu.kit.cm.PoolManagement.Pool.DomainModel.Printer;
-import edu.kit.cm.PoolManagement.Pool.DomainModel.WirlessAccessPoint;
-import edu.kit.cm.PoolManagement.linkedContextes.Door;
-import edu.kit.cm.PoolManagement.linkedContextes.Room;
+import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Computer;
+import edu.kit.cm.WorkspaceManagement.Workspace.Domain.LearningDesk;
+import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Location;
+import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Workspace;
+import edu.kit.cm.WorkspaceManagement.Workspace.Domain.PoolElement;
+import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Printer;
+import edu.kit.cm.WorkspaceManagement.Workspace.Domain.WirlessAccessPoint;
+import edu.kit.cm.WorkspaceManagement.linkedContextes.Door;
+import edu.kit.cm.WorkspaceManagement.linkedContextes.Room;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Getter@Setter
-public class Layout {
+@Getter@Setter@ToString
+public class WorkspaceAdapter {
 	
-	private Pool pool;
-	
-	public Layout() {
-		pool = new Pool();
-	}
-	
-	
-	@Override
-	public String toString() {
-		return "Layout [poolElements=" + pool.getPoolElements() + ", rooms=" + pool.getRooms() + "]";
-	}
-
-//	private List<PoolElement> poolElements;
-//	private List<Room> rooms;
+	@Inject
+	private Workspace workspace;
 	
 	private PoolElement createPoolElement(int id, String type) {
 		switch(type) {
@@ -57,9 +48,9 @@ public class Layout {
 	}
 	
 	public void change(JSONObject json) {
-		pool = new Pool();
-		List<PoolElement> poolElements = pool.getPoolElements();
-		List<Room>rooms = pool.getRooms();
+		workspace = new Workspace();
+		List<PoolElement> poolElements = workspace.getPoolElements();
+		List<Room>rooms = workspace.getRooms();
 		try {
 			JSONArray pElements = json.getJSONArray("poolElements");			
 			for(int i = 0; i<pElements.length();i++) {
@@ -100,9 +91,8 @@ public class Layout {
 		JSONObject json = new JSONObject();
 		JSONArray poolElementJSArray = new JSONArray();
 		JSONArray roomsJS = new JSONArray();
-		System.out.println("test"+poolElementJSArray);
 		try {
-			for(PoolElement poolElement : pool.getPoolElements()) {
+			for(PoolElement poolElement : workspace.getPoolElements()) {
 				JSONObject element = new JSONObject();
 				element.put("id",poolElement.getId());
 				element.put("pos", poolElement.getLocation().toString());
@@ -110,7 +100,7 @@ public class Layout {
 				poolElementJSArray.put(element);
 			}
 			
-			for(Room room: pool.getRooms()) {
+			for(Room room: workspace.getRooms()) {
 				JSONObject roomJS = new JSONObject();
 				roomJS.put("pos1", room.getPos1().toString());
 				roomJS.put("pos2", room.getPos2().toString());
