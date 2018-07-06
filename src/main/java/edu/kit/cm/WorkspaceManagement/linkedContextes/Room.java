@@ -6,22 +6,27 @@ import java.util.List;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Location;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
-@Getter@Setter@ToString
+@Getter@Setter
 public class Room {
 	
-	private List<Door> doors;
-	private Location pos1;
-	private Location pos2;
+	private List<PortalGate> portalGate;
+	private List<Location> location;
 	private int id;
 	
 	public Room() {
-		doors = new ArrayList<>();
+		portalGate = new ArrayList<PortalGate>();
+		location = new ArrayList<Location>();
+	}
+	
+	public Room(List<PortalGate> doors, List<Location> location, int id) {
+		this.portalGate = doors;
+		this.location = location;
+		this.id = id;
 	}
 
 	@Override
 	public String toString() {
-		return "Room [doors=" + doors + ", pos1=" + pos1 + ", pos2=" + pos2 + ", id=" + id + "]";
+		return "Room [doors=" + portalGate + ", pos=" + location + ", id=" + id + "]";
 	}
 }

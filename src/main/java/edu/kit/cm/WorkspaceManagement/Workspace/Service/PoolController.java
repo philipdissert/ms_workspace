@@ -12,23 +12,23 @@ public class PoolController{
 	
 	//Veraltet
 	public static void init(WorkspaceAdapter layout) {
-		String text = "{\n" + 
-				"\"poolElements\":[\n" + 
-				"{\"pos\":\"1,1\",\"id\":\"1\",\"type\":\"PC\"},\n" + 
-				"{\"pos\":\"2,1\",\"id\":\"2\",\"type\":\"Laptop\"},\n" + 
-				"{\"pos\":\"3,1\",\"id\":\"3\",\"type\":\"PC\"}\n" + 
-				"],\n" + 
-				"\"rooms\":[\n" + 
-				"{\"pos1\":\"1,1\",\"pos2\":\"1,1\",\"id\":\"1\",\"doors\":[\n" + 
-				"											{\"pos\":\"1,2\",\"length\":\"10\"},\n" + 
-				"											{\"pos\":\"3,5\",\"length\":\"5\"}\n" + 
-				"											]},\n" + 
-				"\n" + 
-				"{\"pos1\":\"1,1\",\"pos2\":\"1,1\",\"id\":\"1\",\"doors\":[\n" + 
-				"											{\"pos\":\"2,7\",\"length\":\"10\"},\n" + 
-				"											{\"pos\":\"9,7\",\"length\":\"5\"}\n" + 
-				"											]}\n" + 
-				"]\n" + 
+		String text = "{\r\n" + 
+				"\"poolElements\":[\r\n" + 
+				"{\"pos\":\"1,1\",\"id\":\"1\",\"type\":\"PC\"},\r\n" + 
+				"{\"pos\":\"2,1\",\"id\":\"2\",\"type\":\"Laptop\"},\r\n" + 
+				"{\"pos\":\"3,1\",\"id\":\"3\",\"type\":\"PC\"}\r\n" + 
+				"],\r\n" + 
+				"\"rooms\":[\r\n" + 
+				"{\"pos\":[\"1,1\",\"1,2\",\"2,2\",\"2,1\"],\"id\":\"1\",\"portalGates\":[\r\n" + 
+				"											{\"type\":\"door\",\"pos\": [\"1,1\",\"2,2\"]},\r\n" + 
+				"											{\"type\":\"breakthrough\",\"pos\": [\"1,1\",\"5,2\"]}\r\n" + 
+				"											]},\r\n" + 
+				"\r\n" + 
+				"{\"pos\":[\"1,1\",\"1,2\",\"2,2\",\"2,1\"],\"id\":\"1\",\"portalGates\":[\r\n" + 
+				"											{\"type\":\"door\",\"pos\": [\"1,1\",\"3,2\"]},\r\n" + 
+				"											{\"type\":\"breakthrough\",\"pos\": [\"1,1\",\"4,2\"]}\r\n" + 
+				"											]}\r\n" + 
+				"]\r\n" + 
 				"}";
         try {
 			JSONObject obj = new JSONObject(text);

@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Getter@Setter@ToString
-public class PoolElement {
+public abstract class PoolElement {
 	private Location location;
 	private int id;
 	private String type;
