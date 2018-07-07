@@ -13,6 +13,7 @@ public class LearningDesk extends PoolElement {
 	public LearningDesk(int id, Computer computer) {		
 		super(id, "PC");
 		this.computer = computer;
+		state = LearningDeskState.UNKNOWN;
 	}
 	
 	public LearningDesk(int id) {		

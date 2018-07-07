@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Computer;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.LearningDesk;
+import edu.kit.cm.WorkspaceManagement.Workspace.Domain.LearningDeskState;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Location;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Workspace;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.PoolElement;
@@ -134,6 +135,42 @@ public class WorkspaceAdapter {
 		return json;
 	}
 	
+	public JSONArray getAllPcs() {
+		JSONArray jsonArray = new JSONArray();
+		workspace.get(activeWorkspace).getPoolElements().forEach((x) -> {
+			if(x.getType().equals("PC")) {
+				jsonArray.put(x.getId());
+			}
+		});
+		return jsonArray;
+	}
+	
+	public void setPCStatus(int id, String state) {
+		workspace.get(activeWorkspace).getPoolElements().forEach((x) -> {
+			if(x.getType().equals("PC") && x.getId()==id) {
+				LearningDesk ld = (LearningDesk)x;
+				ld.setState(getLearningDeskState(state));
+			}
+		});
+	}
+	
+	public LearningDeskState getPCStatus(int id) {
+		for(PoolElement x : workspace.get(activeWorkspace).getPoolElements()) {
+			if(x.getType().equals("PC") && x.getId()==id) {
+				LearningDesk ld = (LearningDesk)x;
+				return ld.getState();
+			}
+		}
+		return LearningDeskState.UNKNOWN;
+	}
+	
+	private LearningDeskState getLearningDeskState(String state) {
+		switch (state) {
+			case "occupied": return LearningDeskState.OCCUPIED;
+			case "free": return LearningDeskState.FREE;
+			default: return LearningDeskState.UNKNOWN;
+		}
+	}
 	
 	
 	private List<Integer> getWorkspaceIdList() {
