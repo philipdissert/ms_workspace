@@ -3,15 +3,12 @@ package edu.kit.cm.WorkspaceManagement.Workspace.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Computer;
-import edu.kit.cm.WorkspaceManagement.Workspace.Domain.LearningDesk;
-import edu.kit.cm.WorkspaceManagement.Workspace.Domain.LearningDeskState;
+import edu.kit.cm.WorkspaceManagement.Workspace.Domain.LearningDeskLaptop;
+import edu.kit.cm.WorkspaceManagement.Workspace.Domain.LearningDeskPc;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Location;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Workspace;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.PoolElement;
@@ -21,18 +18,21 @@ import edu.kit.cm.WorkspaceManagement.linkedContextes.Breakthrough;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.Door;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.PortalGate;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.Room;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 public class WorkspaceAdapter {
+	
+	private static WorkspaceAdapter workspaceAdapter = new WorkspaceAdapter();
 
 	private List<Workspace> workspace;
 	private int activeWorkspace;
 	
-	public WorkspaceAdapter() {
+	private WorkspaceAdapter() {
 		this.workspace = new ArrayList<Workspace>();
 		this.activeWorkspace = 0;
+	}
+	
+	public static WorkspaceAdapter getInstance() {
+		return workspaceAdapter;
 	}
 	
 	public void addLayout(JSONObject json) throws IllegalArgumentException{
@@ -50,8 +50,7 @@ public class WorkspaceAdapter {
 				int length = pElements.getJSONObject(i).getInt("length");
 				int width = pElements.getJSONObject(i).getInt("width");
 				
-				PoolElement poolElement = createPoolElement(id, type);
-				poolElement.setLocation(location);
+				PoolElement poolElement = createPoolElement(id, type, location);
 				poolElement.setLength(length);
 				poolElement.setWidth(width);
 				poolElements.add(poolElement);
@@ -163,10 +162,10 @@ public class WorkspaceAdapter {
 	public JSONObject getLearningDesk(int id) throws IllegalArgumentException{
 		JSONObject learningDesk = new JSONObject();
 		workspace.get(activeWorkspace).getPoolElements().forEach(poolElement -> {
-			if (poolElement.getType().equals("PC") && poolElement.getId() == id) {
-				
+			if (poolElement.getType().equals("PC") && poolElement.getId() == id) {				
 				try {
 					learningDesk.put("id", poolElement.getId());
+					learningDesk.put("type", poolElement.getType());
 				} catch (JSONException e) {
 					throw new IllegalArgumentException();
 				}
@@ -176,6 +175,28 @@ public class WorkspaceAdapter {
 			throw new IllegalArgumentException();
 		}
 		return learningDesk;
+	}
+	
+	public JSONObject getLearningDesks() {
+		JSONObject jsonObject = new JSONObject();
+		JSONArray jsonArray = new JSONArray();
+		workspace.get(activeWorkspace).getPoolElements().forEach(poolElement -> {
+			JSONObject learningDesk = new JSONObject();
+			if (poolElement.getType().equals("PC")) {				
+				try {
+					learningDesk.put("id", poolElement.getId());
+					learningDesk.put("type", poolElement.getType());
+					jsonArray.put(learningDesk);
+				} catch (JSONException e) {
+					throw new IllegalArgumentException();
+				}
+			}			
+		});
+		try {
+			jsonObject.put("data", jsonArray);
+		} catch (JSONException e) {
+		}
+		return jsonObject;
 	}
 	
 	public JSONArray getAllPcs() {
@@ -188,33 +209,6 @@ public class WorkspaceAdapter {
 		return jsonArray;
 	}
 	
-	public void setPCStatus(int id, String state) {
-		workspace.get(activeWorkspace).getPoolElements().forEach((x) -> {
-			if(x.getType().equals("PC") && x.getId()==id) {
-				LearningDesk ld = (LearningDesk)x;
-				ld.setState(getLearningDeskState(state));
-			}
-		});
-	}
-	
-	public LearningDeskState getPCStatus(int id) {
-		for(PoolElement x : workspace.get(activeWorkspace).getPoolElements()) {
-			if(x.getType().equals("PC") && x.getId()==id) {
-				LearningDesk ld = (LearningDesk)x;
-				return ld.getState();
-			}
-		}
-		return LearningDeskState.UNKNOWN;
-	}
-	
-	private LearningDeskState getLearningDeskState(String state) {
-		switch (state) {
-			case "occupied": return LearningDeskState.OCCUPIED;
-			case "free": return LearningDeskState.FREE;
-			default: return LearningDeskState.UNKNOWN;
-		}
-	}
-	
 	
 	private List<Integer> getWorkspaceIdList() {
 		List<Integer> output = new ArrayList<Integer>();
@@ -224,12 +218,12 @@ public class WorkspaceAdapter {
 		return output;
 	}
 	
-	private PoolElement createPoolElement(int id, String type) {
+	private PoolElement createPoolElement(int id, String type, Location location) {
 		switch(type) {
-			case "PC": 			return new LearningDesk(id, new Computer());
-			case "Laptop": 		return new LearningDesk(id);
-			case "wap": 		return new WirlessAccessPoint(id);
-			case "printer":		return new Printer(id);	
+			case "PC": 			return new LearningDeskPc(id, location);
+			case "Laptop": 		return new LearningDeskLaptop(id, location);
+			case "wap": 		return new WirlessAccessPoint(id, location);
+			case "printer":		return new Printer(id, location);	
 			default : 			return null;
 		}
 	}
@@ -258,4 +252,5 @@ public class WorkspaceAdapter {
 			default :				return null;
 		}
 	}
+
 }

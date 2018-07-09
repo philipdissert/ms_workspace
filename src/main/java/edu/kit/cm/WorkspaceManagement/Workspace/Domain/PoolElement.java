@@ -12,10 +12,15 @@ public abstract class PoolElement {
 	private int length;
 	private int width;
 	
-	public PoolElement(int id, String type) {
+	public PoolElement(int id, String type, Location location) {
 		this.id = id;
 		this.type = type;
+		this.location = location;
 		this.length = 10;
 		this.width = 10;
+	}
+	
+	public String getName() {
+		return this.getType()+":"+this.getId();
 	}
 }

@@ -13,15 +13,14 @@ import edu.kit.cm.WorkspaceManagement.Workspace.Service.WorkspaceAdapter;
 
 @RestController
 public class LayoutAPIController {
-	//@Inject
-	WorkspaceAdapter workspaceAdapter = new WorkspaceAdapter();
+
+	WorkspaceAdapter workspaceAdapter = WorkspaceAdapter.getInstance();
 	
 
 //	@RequestMapping(value = "/layout", produces = {JSON, JSON_UTF8}, method = RequestMethod.GET)
 	
 	@GetMapping("/layout")
 	public String getLayout() {		
-		PoolController.init(workspaceAdapter);
 		return workspaceAdapter.getLayout().toString();
 	}
 	@GetMapping("/")
@@ -29,15 +28,11 @@ public class LayoutAPIController {
 		return workspaceAdapter.getLayoutList().toString();
 	}
 	
-	@GetMapping("/computer")
+	@GetMapping("/learningDesks")
 	public String getComputers() {
-		return workspaceAdapter.getAllPcs().toString();
+		return workspaceAdapter.getLearningDesks().toString();
 	}
 	
-	@GetMapping("/computer/{id}")
-	public String getCompterStatus(@PathVariable int id) {
-		return workspaceAdapter.getPCStatus(id).toString();
-	}
 	
 	@PutMapping("/Computers/{id}")
 	public void setComputerStatus() {
