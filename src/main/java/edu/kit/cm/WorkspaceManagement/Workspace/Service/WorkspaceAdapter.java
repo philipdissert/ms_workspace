@@ -134,6 +134,24 @@ public class WorkspaceAdapter {
 		return json;
 	}
 	
+	public JSONObject getLearningDesk(int id) throws IllegalArgumentException{
+		JSONObject learningDesk = new JSONObject();
+		workspace.get(activeWorkspace).getPoolElements().forEach(poolElement -> {
+			if (poolElement.getType().equals("PC") && poolElement.getId() == id) {
+				
+				try {
+					learningDesk.put("id", poolElement.getId());
+				} catch (JSONException e) {
+					throw new IllegalArgumentException();
+				}
+			}
+		});
+		if (learningDesk.equals(null)) {
+			throw new IllegalArgumentException();
+		}
+		return learningDesk;
+	}
+	
 	
 	
 	private List<Integer> getWorkspaceIdList() {
