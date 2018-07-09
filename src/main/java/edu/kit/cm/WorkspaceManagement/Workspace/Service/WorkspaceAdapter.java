@@ -43,7 +43,8 @@ public class WorkspaceAdapter {
 		try {
 			JSONArray pElements = json.getJSONArray("poolElements");
 			for(int i = 0; i<pElements.length();i++) {
-				Location location = parseLocation(pElements.getJSONObject(i).getString("pos"));
+				Location location = new Location(pElements.getJSONObject(i).getJSONObject("pos").getInt("x"),
+							pElements.getJSONObject(i).getJSONObject("pos").getInt("y"));
 				int id = pElements.getJSONObject(i).getInt("id");
 				String type = pElements.getJSONObject(i).getString("type");
 				int length = pElements.getJSONObject(i).getInt("length");
@@ -54,14 +55,16 @@ public class WorkspaceAdapter {
 				poolElement.setLength(length);
 				poolElement.setWidth(width);
 				poolElements.add(poolElement);
-			}			
+			}						
 			JSONArray pRooms = json.getJSONArray("rooms");
 			for(int i = 0; i<pRooms.length(); i++) {
 				List<Location> location = new ArrayList<Location>();
 				List<PortalGate> portalGate = new ArrayList<PortalGate>();
 				for (int k = 0; k < pRooms.getJSONObject(i).getJSONArray("pos").length(); k++) {
-					location.add(parseLocation(pRooms.getJSONObject(i).getJSONArray("pos").getString(k)));
+					JSONObject pos = pElements.getJSONObject(i).getJSONObject("pos");
+					location.add(new Location(pos.getInt("x"), pos.getInt("y")));					
 				}
+				
 				for (int k = 0; k < pRooms.getJSONObject(i).getJSONArray("portalGates").length(); k++) {										
 					portalGate.add(parsePortalGate(pRooms.getJSONObject(i).getJSONArray("portalGates").getJSONObject(k)));
 				}
@@ -102,8 +105,11 @@ public class WorkspaceAdapter {
 		try {
 			for(PoolElement poolElement : workspace.get(index).getPoolElements()) {
 				JSONObject element = new JSONObject();
+				JSONObject pos = new JSONObject();
+				pos.put("x", poolElement.getLocation().getXPos());
+				pos.put("y", poolElement.getLocation().getYPos());
 				element.put("id",poolElement.getId());
-				element.put("pos", poolElement.getLocation().toString());
+				element.put("pos", pos);
 				element.put("type", poolElement.getType());
 				element.put("width", poolElement.getWidth());
 				element.put("length", poolElement.getLength());
@@ -114,7 +120,14 @@ public class WorkspaceAdapter {
 				JSONObject roomJS = new JSONObject();
 				JSONArray locationJS = new JSONArray();
 				room.getLocation().forEach(location -> {
-					locationJS.put(location.toString());
+					JSONObject pos = new JSONObject();
+					try {
+						pos.put("x", location.getXPos());
+						pos.put("y", location.getYPos());
+					} catch (JSONException e) {
+
+					}
+					locationJS.put(pos);
 				});
 				roomJS.put("pos", locationJS);
 				roomJS.put("id", room.getId());
@@ -124,7 +137,13 @@ public class WorkspaceAdapter {
 					JSONObject portalGateJS = new JSONObject();
 					JSONArray locationPortalGateJS = new JSONArray();
 					portalGate.getLocation().forEach(location -> {
-						locationPortalGateJS.put(location.toString());
+						JSONObject pos = new JSONObject();
+						try {
+							pos.put("x", location.getXPos());
+							pos.put("y", location.getYPos());
+						} catch (JSONException e) {
+						}
+						locationPortalGateJS.put(pos);
 					});
 					portalGateJS.put("pos", locationPortalGateJS);
 					portalGateJS.put("type", portalGate.getType());					
@@ -215,21 +234,15 @@ public class WorkspaceAdapter {
 		}
 	}
 	
-	private Location parseLocation(String pos) {		
-		try {
-			String[] temp = pos.split(",");		
-			return new Location(Long.parseLong(temp[0]),Long.parseLong(temp[1]));
-		} catch(NumberFormatException e) {
-			throw new IllegalArgumentException();
-		}
-	}
 	
 	private PortalGate parsePortalGate(JSONObject jsonObject)  {
 		try {
 			String type = jsonObject.getString("type");
 			List<Location> location = new ArrayList<Location>();			
 			for (int k = 0; k < jsonObject.getJSONArray("pos").length(); k++) {
-				location.add(parseLocation(jsonObject.getJSONArray("pos").getString(k)));
+				int xPos = jsonObject.getJSONArray("pos").getJSONObject(k).getInt("x");
+				int yPos = jsonObject.getJSONArray("pos").getJSONObject(k).getInt("y");
+				location.add(new Location(xPos, yPos));
 			}
 			return getPortalGate(type, location);
 			
