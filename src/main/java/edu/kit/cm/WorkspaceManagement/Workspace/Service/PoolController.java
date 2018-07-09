@@ -14,9 +14,9 @@ public class PoolController{
 	public static void init(WorkspaceAdapter layout) {
 		String text = "{\r\n" + 
 				"\"poolElements\":[\r\n" + 
-				"{\"pos\":\"1,1\",\"id\":\"1\",\"type\":\"PC\"},\r\n" + 
-				"{\"pos\":\"2,1\",\"id\":\"2\",\"type\":\"Laptop\"},\r\n" + 
-				"{\"pos\":\"3,1\",\"id\":\"3\",\"type\":\"PC\"}\r\n" + 
+				"{\"pos\":\"1,1\",\"id\":\"1\",\"type\":\"PC\",\"width\":\"10\",\"length\":\"10\"},\r\n" + 
+				"{\"pos\":\"2,1\",\"id\":\"2\",\"type\":\"Laptop\",\"width\":\"5\",\"length\":\"5\"},\r\n" + 
+				"{\"pos\":\"3,1\",\"id\":\"3\",\"type\":\"PC\",\"width\":\"10\",\"length\":\"10\"}\r\n" + 
 				"],\r\n" + 
 				"\"rooms\":[\r\n" + 
 				"{\"pos\":[\"1,1\",\"1,2\",\"2,2\",\"2,1\"],\"id\":\"1\",\"portalGates\":[\r\n" + 

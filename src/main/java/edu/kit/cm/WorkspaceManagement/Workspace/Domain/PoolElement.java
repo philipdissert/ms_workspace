@@ -9,9 +9,13 @@ public abstract class PoolElement {
 	private Location location;
 	private int id;
 	private String type;
+	private int length;
+	private int width;
 	
 	public PoolElement(int id, String type) {
 		this.id = id;
 		this.type = type;
+		this.length = 10;
+		this.width = 10;
 	}
 }

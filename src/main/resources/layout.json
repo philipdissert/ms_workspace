@@ -1,8 +1,8 @@
 {
 "poolElements":[
-{"pos":"1,1","id":"1","type":"PC"},
-{"pos":"2,1","id":"2","type":"Laptop"},
-{"pos":"3,1","id":"3","type":"PC"}
+{"pos":"1,1","id":"1","type":"PC","width":"10","length":"10"},
+{"pos":"2,1","id":"2","type":"Laptop","width":"5","length":"5"},
+{"pos":"3,1","id":"3","type":"PC","width":"10","length":"10"}
 ],
 "rooms":[
 {"pos":["1,1","1,2","2,2","2,1"],"id":"1","portalGates":[

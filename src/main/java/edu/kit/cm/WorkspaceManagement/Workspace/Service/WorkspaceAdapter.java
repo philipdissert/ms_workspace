@@ -46,9 +46,13 @@ public class WorkspaceAdapter {
 				Location location = parseLocation(pElements.getJSONObject(i).getString("pos"));
 				int id = pElements.getJSONObject(i).getInt("id");
 				String type = pElements.getJSONObject(i).getString("type");
+				int length = pElements.getJSONObject(i).getInt("length");
+				int width = pElements.getJSONObject(i).getInt("width");
 				
 				PoolElement poolElement = createPoolElement(id, type);
 				poolElement.setLocation(location);
+				poolElement.setLength(length);
+				poolElement.setWidth(width);
 				poolElements.add(poolElement);
 			}			
 			JSONArray pRooms = json.getJSONArray("rooms");
@@ -101,6 +105,8 @@ public class WorkspaceAdapter {
 				element.put("id",poolElement.getId());
 				element.put("pos", poolElement.getLocation().toString());
 				element.put("type", poolElement.getType());
+				element.put("width", poolElement.getWidth());
+				element.put("length", poolElement.getLength());
 				poolElementJSArray.put(element);
 			}
 			
