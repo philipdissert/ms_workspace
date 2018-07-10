@@ -6,7 +6,7 @@ import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Location;
 
 public class Door extends PortalGate{
 	
-	public Door(List<Location> location, String type) {
-		super(location, type);
+	public Door(List<Location> location) {
+		super(location, "passage");
 	}
 }

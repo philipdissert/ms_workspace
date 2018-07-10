@@ -14,7 +14,7 @@ import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Workspace;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.PoolElement;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Printer;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.WirlessAccessPoint;
-import edu.kit.cm.WorkspaceManagement.linkedContextes.Breakthrough;
+import edu.kit.cm.WorkspaceManagement.linkedContextes.Passage;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.Door;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.PortalGate;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.Room;
@@ -130,7 +130,6 @@ public class WorkspaceAdapter {
 				});
 				roomJS.put("pos", locationJS);
 				roomJS.put("id", room.getId());
-				
 				JSONArray portalGateJSArray = new JSONArray();
 				for(PortalGate portalGate : room.getPortalGate()) {
 					JSONObject portalGateJS = new JSONObject();
@@ -247,8 +246,8 @@ public class WorkspaceAdapter {
 
 	private PortalGate getPortalGate(String type, List<Location> location) {
 		switch(type) {
-			case "door":			return new Door(location, type);
-			case "breakthrough":	return new Breakthrough(location, type);
+			case "door":			return new Door(location);
+			case "passage":	return new Passage(location);
 			default :				return null;
 		}
 	}
