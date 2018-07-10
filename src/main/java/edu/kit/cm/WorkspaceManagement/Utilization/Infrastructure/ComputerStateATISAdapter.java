@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,9 +16,12 @@ import edu.kit.cm.WorkspaceManagement.Utilization.Service.UtilizationAdapter;
 
 public class ComputerStateATISAdapter {
 	
-	public void getComputersWithStatesFromATIS() throws Exception {		
+	private static final int MAX_ATIS_PCS = 72;
+	
+	public void updateComputersWithStatesFromATIS() throws Exception {		
 		JSONObject jsonObject = new JSONObject();
 		JSONArray jsonArray = new JSONArray();		
+		
 		
 		BufferedReader in = getBufferedReaderByAdress("https://webadmin.informatik.kit.edu/pool/html/snmp_out.txt");	
 		String inputLine;
@@ -33,29 +39,26 @@ public class ComputerStateATISAdapter {
 		}
 		in.close();
 		jsonObject.put("data", jsonArray);
-		UtilizationAdapter.getInstance().insertData(jsonObject);
+		UtilizationAdapter.getInstance().updateStates(jsonObject);
 	}
 	
-	public void getPoolElementsFromWorkspace() {
+	public void generatePoolElementsFromWorkspace() {
 		JSONObject jsonObject = RestManager.sendGetRequest("/learningDesks");
 		UtilizationAdapter.getInstance().createPoolElementHashMap(jsonObject);
-		
 	}
 	
-//	public HashMap<Date, Integer> getFreeSeatMapFromATIS() throws Exception {
-//		HashMap<Date, Integer> freeSeatMap = new HashMap<>(); 
-//		BufferedReader in = getBufferedReaderByAdress("https://webadmin.informatik.kit.edu/pool/html/freeseats.txt");
-//		String inputLine;
-//		while ((inputLine = in.readLine()) != null) {
-//			String[] s = inputLine.split(" ");			
-//			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm");
-//			String sdate = s[0].replaceAll("[.]", "-");
-//			Date date = formatter.parse(sdate);
-//			freeSeatMap.put(date, Integer.valueOf(s[1]));
-//		}
-//		in.close();
-//		return freeSeatMap;
-//	}
+	public void updateFreeSeatsFromATIS() throws Exception {
+		BufferedReader in = getBufferedReaderByAdress("https://webadmin.informatik.kit.edu/pool/html/freeseats.txt");
+		String inputLine;
+		while ((inputLine = in.readLine()) != null) {
+			String[] s = inputLine.split(" ");			
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm");
+			String sdate = s[0].replaceAll("[.]", "-");
+			Date date = formatter.parse(sdate);
+			UtilizationAdapter.getInstance().updateSeats(date, Integer.valueOf(s[1]), MAX_ATIS_PCS);
+		}
+		in.close();
+	}
 //	
 //	public int getLastFreeSeatsFromATIS() throws Exception {
 //		BufferedReader in = getBufferedReaderByAdress("https://webadmin.informatik.kit.edu/pool/html/freeseats.txt");

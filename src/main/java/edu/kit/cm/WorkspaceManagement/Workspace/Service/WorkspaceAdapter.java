@@ -42,6 +42,7 @@ public class WorkspaceAdapter {
 		
 		try {
 			JSONArray pElements = json.getJSONArray("poolElements");
+			
 			for(int i = 0; i<pElements.length();i++) {
 				Location location = new Location(pElements.getJSONObject(i).getJSONObject("pos").getInt("x"),
 							pElements.getJSONObject(i).getJSONObject("pos").getInt("y"));
@@ -50,11 +51,12 @@ public class WorkspaceAdapter {
 				int length = pElements.getJSONObject(i).getInt("length");
 				int width = pElements.getJSONObject(i).getInt("width");
 				
+				
 				PoolElement poolElement = createPoolElement(id, type, location);
 				poolElement.setLength(length);
 				poolElement.setWidth(width);
 				poolElements.add(poolElement);
-			}						
+			}		
 			JSONArray pRooms = json.getJSONArray("rooms");
 			for(int i = 0; i<pRooms.length(); i++) {
 				List<Location> location = new ArrayList<Location>();
@@ -72,7 +74,7 @@ public class WorkspaceAdapter {
 				Room room = new Room(portalGate, location, id);
 				rooms.add(room);
 			}
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			throw new IllegalArgumentException();
 		}
 		workspace.add(newWorkspace);
@@ -223,7 +225,7 @@ public class WorkspaceAdapter {
 			case "PC": 			return new LearningDeskPc(id, location);
 			case "Laptop": 		return new LearningDeskLaptop(id, location);
 			case "wap": 		return new WirlessAccessPoint(id, location);
-			case "printer":		return new Printer(id, location);	
+			case "Printer":		return new Printer(id, location);	
 			default : 			return null;
 		}
 	}

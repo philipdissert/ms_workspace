@@ -6,18 +6,21 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import edu.kit.cm.WorkspaceManagement.Utilization.Domain.CurrentUtilization;
+import edu.kit.cm.WorkspaceManagement.Utilization.Domain.History;
 import edu.kit.cm.WorkspaceManagement.Utilization.Domain.PoolElementState;
 
-public class UtilizationAdapter {
+public class UtilizationAdapter {	
 	
 	private static UtilizationAdapter utilizationAdapter = new UtilizationAdapter();
 	
 	private HashMap<Integer, PoolElementState> poolElementHashMap;
+	private History history;
+	private CurrentUtilization currentUtilization;
 	
 	private UtilizationAdapter() {
-		
+		history = new History();
 	}
 	
 	public static UtilizationAdapter getInstance() {
@@ -38,7 +41,7 @@ public class UtilizationAdapter {
 		}	
 	}
 	
-	public void insertData (JSONObject poolData) {
+	public void updateStates (JSONObject poolData) {
 		try {
 			JSONArray jsonArray = poolData.getJSONArray("data");
 			for (int i = 0; i < jsonArray.length(); i++) {
@@ -58,6 +61,40 @@ public class UtilizationAdapter {
 		} catch (JSONException e) {
 			throw new IllegalArgumentException();
 		}
+	}
+	
+	public void updateSeats(Date date, int freeSeats, int maxATISPcs) {		
+		history.getUtilizationList().put(date, currentUtilization);
+		currentUtilization = new CurrentUtilization(freeSeats, maxATISPcs-freeSeats, maxATISPcs);
+	}
+	
+	public JSONObject getCurrentUtilization() {
+		JSONObject jsonObject = new JSONObject();
+		try {
+			jsonObject.put("free", currentUtilization.getFreeWorkspaces());
+			jsonObject.put("occupied", currentUtilization.getOccupiedWorkspaces());
+			jsonObject.put("percentageFree", currentUtilization.getPercentageFree());
+			jsonObject.put("percentageOccupied", currentUtilization.getOccupiedWorkspaces());
+			return jsonObject;
+		} catch (JSONException e) {
+			return new JSONObject();
+		}		
+	}
+	
+	public int getFreeWorkspaces() {
+		return currentUtilization.getFreeWorkspaces();
+	}
+	
+	public int getOccupiedWorkspaces() {
+		return currentUtilization.getOccupiedWorkspaces();
+	}
+	
+	public double getPercentageFree() {
+		return currentUtilization.getPercentageFree();
+	}
+	
+	public double getPercentageOccupied() {
+		return currentUtilization.getPercentageOccupied();
 	}
 	
 	public JSONObject getCurrentState() {

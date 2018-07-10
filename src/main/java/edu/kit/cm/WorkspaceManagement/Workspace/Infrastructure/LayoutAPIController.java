@@ -1,12 +1,10 @@
 package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure;
 
+import org.json.JSONException;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.kit.cm.WorkspaceManagement.Workspace.Service.PoolController;
 import edu.kit.cm.WorkspaceManagement.Workspace.Service.WorkspaceAdapter;
 
 
@@ -22,6 +20,26 @@ public class LayoutAPIController {
 	@GetMapping("/layout")
 	public String getLayout() {		
 		return workspaceAdapter.getLayout().toString();
+	}
+	
+	@GetMapping("/layout/poolElements")
+	public String getPoolElements() {
+		try {
+			return workspaceAdapter.getLayout().getJSONArray("poolElements").toString();
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return "";
+		}
+	}
+	
+	@GetMapping("/layout/rooms")
+	public String getRooms() {
+		try {
+			return workspaceAdapter.getLayout().getJSONArray("rooms").toString();
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return "";
+		}
 	}
 	@GetMapping("/")
 	public String asd() {
