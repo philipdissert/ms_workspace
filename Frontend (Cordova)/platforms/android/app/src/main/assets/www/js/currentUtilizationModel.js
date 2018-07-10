@@ -1,26 +1,26 @@
-var poolElements = [
-	{
-		posX: 1,
-		posY: 1,
-		id: 1,
-		type: "PC",
-	},
-	{
-		posX: 2,
-		posY: 2,
-		id: 2,
-		type: "PC",
-	},
-	{
-		posX: 3,
-		posY: 3,
-		id: 3,
-		type: "Laptop",
-	},
-	{
-		posX: 4,
-		posY: 4,
-		id: 4,
-		type: "Printer",
-	}
-]
+var request = new XMLHttpRequest();
+request.open('GET', 'http://localhost:8080/layout', true);
+request.onload = function() {
+    var data = JSON.parse(this.response);
+    if (request.status >= 200 && request.status < 400) {
+        iteratePoolElements(data);
+        //iterateRooms(data);
+    } else {
+        console.log('error');
+    }
+}
+request.send();
+
+/* var request2 = new XMLHttpRequest();
+request2.open('GET', 'http://localhost:8080/currentState', true);
+request2.onload = function() {
+    var data = JSON.parse(this.response);
+    if (request.status >= 200 && request.status < 400) {
+        console.log(data.data);
+        iterateCurrentStates(data);
+    } else {
+        console.log('error');
+    }
+}
+request2.send();
+*/
