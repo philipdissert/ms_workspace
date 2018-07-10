@@ -13,6 +13,7 @@ var currentStates = [
 	},
 ]
 
+var test = poolElements[0].id;
 
 
 const NUMBERS_OF_DESKS = 72;
@@ -33,7 +34,7 @@ currentStates.forEach(function(currentState) {
       stateIconURL = "https://webadmin.informatik.kit.edu/pool/img/win_busy.png";
       break;
     case LINUX_AVAILABLE:
-      stateIconURL = "https://webadmin.informatik.kit.edu/pool/img/linux_free2.png";
+      stateIconURL = "https://webadmin.informatik.kwit.edu/pool/img/linux_free2.png";
       break;
     case LINUX_OCCUPIED:
       stateIconURL = "https://webadmin.informatik.kit.edu/pool/img/linux_busy2.png";
@@ -46,5 +47,7 @@ currentStates.forEach(function(currentState) {
       break;
     default:
   }
-  document.getElementById("" + currentState.id).style.backgroundImage = "url('" + stateIconURL +"')";
+	var temp = document.getElementById("" + currentState.id);
+	temp.className = "square";
+  temp.style.backgroundImage = "url('" + stateIconURL +"')";
 })
