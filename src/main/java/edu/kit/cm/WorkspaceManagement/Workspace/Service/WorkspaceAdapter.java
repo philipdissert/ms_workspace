@@ -58,12 +58,13 @@ public class WorkspaceAdapter {
 				poolElements.add(poolElement);
 			}		
 			JSONArray pRooms = json.getJSONArray("rooms");
+			System.out.println(pRooms.toString());
 			for(int i = 0; i<pRooms.length(); i++) {
 				List<Location> location = new ArrayList<Location>();
 				List<PortalGate> portalGate = new ArrayList<PortalGate>();
 				for (int k = 0; k < pRooms.getJSONObject(i).getJSONArray("pos").length(); k++) {
-					JSONObject pos = pElements.getJSONObject(i).getJSONObject("pos");
-					location.add(new Location(pos.getInt("x"), pos.getInt("y")));					
+					JSONArray pos = pRooms.getJSONObject(i).getJSONArray("pos");
+					location.add(new Location(pos.getJSONObject(k).getInt("x"), pos.getJSONObject(k).getInt("y")));					
 				}
 				
 				for (int k = 0; k < pRooms.getJSONObject(i).getJSONArray("portalGates").length(); k++) {										
@@ -73,6 +74,9 @@ public class WorkspaceAdapter {
 					
 				Room room = new Room(portalGate, location, id);
 				rooms.add(room);
+				for(Room r : rooms) {
+					System.out.println(r.toString());
+				}
 			}
 		} catch (Exception e) {
 			throw new IllegalArgumentException();

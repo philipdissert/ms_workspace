@@ -11,11 +11,13 @@ for (var i = 0; i < 108; i++) {
 	}
 }
 
+function paragraphs(data) {
+console.log(data);
 var para1 = document.createElement("p");
 para1.id = "para1";
 para1.style.top = unit*142 + "px";
 para1.className = "para";
-var node1 = document.createTextNode("Aktuelle Auslastung: ");
+var node1 = document.createTextNode("Aktuelle Auslastung: " + data.percentageOccupied);
 para1.appendChild(node1);
 
 var para2 = document.createElement("p");
@@ -27,13 +29,14 @@ para2.appendChild(node2);
 var para3 = document.createElement("p");
 para3.className = "para";
 para3.style.top = unit*142 + "px";
-var node3 = document.createTextNode("Belegte Rechner: ");
+var node3 = document.createTextNode("Belegte Rechner: " + data.occupied);
 para3.appendChild(node3);
 
 var body = document.getElementsByTagName("BODY")[0];
 body.appendChild(para1);
 body.appendChild(para2);
 body.appendChild(para3);
+}
 
 //Put the rooms on layout
 function iterateRooms(data) {
@@ -47,7 +50,7 @@ data.rooms.forEach(function(room) {
 	roomDiv.style.height = unit*(room.pos[3].y - room.pos[0].y) + "px";
 	document.getElementById("container").appendChild(roomDiv);
 
-	var doorDiv = document.createElement('div');
+	/*var doorDiv = document.createElement('div');
 	doorDiv.className = "square";
 	doorDiv.id = "door" + room.id;
 	doorDiv.style.left = unit*room.door.posX + "px";
@@ -56,10 +59,10 @@ data.rooms.forEach(function(room) {
 	doorDiv.style.height = unit*room.door.length + "px";
 	doorDiv.style.backgroundImage =  "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrxXHiFbm8YWyyIqBfRfwXgo_ZJpSuc2eLQh4t9XuA6r_equ7H0g')";
 	doorDiv.style.border = "white";
-	document.getElementById("container").appendChild(doorDiv);
+	document.getElementById("container").appendChild(doorDiv);*/
 })
-//The ATIS-door is vertical => rotate 90 degrees
-document.getElementById("door0").style.transform = "rotate(90deg)";
+/*The ATIS-door is vertical => rotate 90 degrees
+document.getElementById("door0").style.transform = "rotate(90deg)";*/
 }
 
 function iteratePoolElements(data) {
@@ -69,7 +72,7 @@ function iteratePoolElements(data) {
 	board.className = "square";
 	board.id	= poolElement.type + poolElement.id ;
 	board.style.left = unit*poolElement.pos.x + "px";
-	board.style.top = unit*poolElement.pos.y + "px";
+	board.style.top = unit*(poolElement.pos.y + 32) + "px";
 	board.style.width = unit*poolElement.width + "px";
 	board.style.height = unit*poolElement.length + "px";
     document.getElementById("container").appendChild(board);
@@ -81,10 +84,10 @@ function iteratePoolElements(data) {
 			document.getElementById("" + board.id ).style.backgroundImage = "url('https://webadmin.informatik.kit.edu/pool/img/win_free.png')";
 			break;
 		case "Laptop":
-			document.getElementById("" + board.id ).style.backgroundImage = "url('https://serving.photos.photobox.com/68520215cd406f9aec5c4341a0a87b49930e590450b90c2bce0840d7fb9539190d35da20.jpg";
+			document.getElementById("" + board.id ).style.backgroundImage = "url('https://serving.photos.photobox.com/68520215cd406f9aec5c4341a0a87b49930e590450b90c2bce0840d7fb9539190d35da20.jpg')";
 			break;
 		case "Printer":
-				document.getElementById("" + board.id ).style.backgroundImage = "url('https://webadmin.informatik.kit.edu/pool/img/kyocera.png";
+				document.getElementById("" + board.id ).style.backgroundImage = "url('https://webadmin.informatik.kit.edu/pool/img/kyocera.png')";
 				break;
 		case "Wall":
 				document.getElementById("" + board.id ).style.backgroundColor = "black";
@@ -132,7 +135,7 @@ data.data.forEach(function(currentState) {
       break;
     default:
   }
-	var temp = document.getElementById("" + currentState.id);
+	var temp = document.getElementById("" + currentState.type + currentState.id);
 	temp.className = "square";
     temp.style.backgroundImage = "url('" + stateIconURL +"')";
 })

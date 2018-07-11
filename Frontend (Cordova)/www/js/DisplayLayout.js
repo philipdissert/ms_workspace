@@ -23,7 +23,7 @@ rooms.forEach(function(room) {
 	roomDiv.style.height = unit*(room.posY4 - room.posY1) + "px";
 	document.getElementById("container").appendChild(roomDiv);
 
-	var doorDiv = document.createElement('div');
+	/*var doorDiv = document.createElement('div');
 	doorDiv.className = "square";
 	doorDiv.id = "door" + room.id;
 	doorDiv.style.left = unit*room.door.posX + "px";
@@ -32,10 +32,10 @@ rooms.forEach(function(room) {
 	doorDiv.style.height = unit*room.door.length + "px";
 	doorDiv.style.backgroundImage =  "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrxXHiFbm8YWyyIqBfRfwXgo_ZJpSuc2eLQh4t9XuA6r_equ7H0g')";
 	doorDiv.style.border = "white";
-	document.getElementById("container").appendChild(doorDiv);
+	document.getElementById("container").appendChild(doorDiv);*/
 })
-//The ATIS-door is vertical => rotate 90 degrees
-document.getElementById("door0").style.transform = "rotate(90deg)";
+/*The ATIS-door is vertical => rotate 90 degrees
+document.getElementById("door0").style.transform = "rotate(90deg)";*/
 
 //Put the pool's elements on layout
 poolElements.forEach(function(poolElement) {

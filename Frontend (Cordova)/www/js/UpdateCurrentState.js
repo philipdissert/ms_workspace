@@ -48,6 +48,7 @@ currentStates.forEach(function(currentState) {
     default:
   }
 	var temp = document.getElementById("" + currentState.id);
+    console.log(temp);
 	temp.className = "square";
   temp.style.backgroundImage = "url('" + stateIconURL +"')";
 })
