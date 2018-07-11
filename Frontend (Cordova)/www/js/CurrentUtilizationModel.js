@@ -1,5 +1,5 @@
 var request = new XMLHttpRequest();
-request.open('GET', 'http://localhost:8080/layout', true);
+request.open('GET', 'https://pool.cm.tm.kit.edu/layout', true);
 request.onload = function() {
     var data = JSON.parse(this.response);
     if (request.status >= 200 && request.status < 400) {
@@ -12,7 +12,7 @@ request.onload = function() {
 request.send();
 
 var request2 = new XMLHttpRequest();
-request2.open('GET', 'http://localhost:8080/currentState', true);
+request2.open('GET', 'https://pool.cm.tm.kit.edu/currentState', true);
 request2.onload = function() {
     var data = JSON.parse(this.response);
     if (request.status >= 200 && request.status < 400) {
@@ -24,7 +24,7 @@ request2.onload = function() {
 request2.send();
 
 var request3 = new XMLHttpRequest();
-request3.open('GET', 'http://localhost:8080/currentUtilization', true);
+request3.open('GET', 'https://pool.cm.tm.kit.edu/currentUtilization', true);
 request3.onload = function() {
     var data = JSON.parse(this.response);
     if (request.status >= 200 && request.status < 400) {
