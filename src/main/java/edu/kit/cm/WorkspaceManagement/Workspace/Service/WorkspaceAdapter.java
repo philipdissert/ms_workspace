@@ -58,7 +58,6 @@ public class WorkspaceAdapter {
 				poolElements.add(poolElement);
 			}		
 			JSONArray pRooms = json.getJSONArray("rooms");
-			System.out.println(pRooms.toString());
 			for(int i = 0; i<pRooms.length(); i++) {
 				List<Location> location = new ArrayList<Location>();
 				List<PortalGate> portalGate = new ArrayList<PortalGate>();
@@ -74,9 +73,6 @@ public class WorkspaceAdapter {
 					
 				Room room = new Room(portalGate, location, id);
 				rooms.add(room);
-				for(Room r : rooms) {
-					System.out.println(r.toString());
-				}
 			}
 		} catch (Exception e) {
 			throw new IllegalArgumentException();
