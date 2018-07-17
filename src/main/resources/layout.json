@@ -1,6 +1,6 @@
 {
 "poolElements":[
-{"pos":{"x":"10","y":"1"},"id":"1","type":"PC","width":"10","length":"10"},
+{"pos":{"x":10,"y":1},"id":1,"type":"PC","width":10,"length":10},
 {"pos":{"x":"20","y":"1"},"id":"2","type":"PC","width":"10","length":"10"},
 {"pos":{"x":"30","y":"1"},"id":"3","type":"PC","width":"10","length":"10"},
 {"pos":{"x":"40","y":"1"},"id":"4","type":"PC","width":"10","length":"10"},
@@ -26,3 +26,4 @@
  "portalGates"  :[{"type":"door","pos": [{"x":"1","y":"1"},{"x":"1","y":"1"}]},
   				  {"type":"passage","pos": [{"x":"1","y":"1"},{"x":"1","y":"1"}]}]}]
 }
+

@@ -39,10 +39,13 @@ public class WorkspaceAdapter {
 		Workspace newWorkspace = new Workspace();
 		List<PoolElement> poolElements = newWorkspace.getPoolElements();
 		List<Room>rooms = newWorkspace.getRooms();
-		
+
+		JSONArray pElements = new JSONArray();
 		try {
-			JSONArray pElements = json.getJSONArray("poolElements");
-			
+			pElements = json.getJSONArray("poolElements");
+		} catch (Exception e) {
+		}
+
 			for(int i = 0; i<pElements.length();i++) {
 				Location location = new Location(pElements.getJSONObject(i).getJSONObject("pos").getInt("x"),
 							pElements.getJSONObject(i).getJSONObject("pos").getInt("y"));
@@ -50,13 +53,15 @@ public class WorkspaceAdapter {
 				String type = pElements.getJSONObject(i).getString("type");
 				int length = pElements.getJSONObject(i).getInt("length");
 				int width = pElements.getJSONObject(i).getInt("width");
-				
-				
+
 				PoolElement poolElement = createPoolElement(id, type, location);
 				poolElement.setLength(length);
 				poolElement.setWidth(width);
 				poolElements.add(poolElement);
-			}		
+			}
+
+
+		try {
 			JSONArray pRooms = json.getJSONArray("rooms");
 			for(int i = 0; i<pRooms.length(); i++) {
 				List<Location> location = new ArrayList<Location>();
@@ -249,7 +254,7 @@ public class WorkspaceAdapter {
 	private PortalGate getPortalGate(String type, List<Location> location) {
 		switch(type) {
 			case "door":			return new Door(location);
-			case "passage":	return new Passage(location);
+			case "passage":			return new Passage(location);
 			default :				return null;
 		}
 	}
