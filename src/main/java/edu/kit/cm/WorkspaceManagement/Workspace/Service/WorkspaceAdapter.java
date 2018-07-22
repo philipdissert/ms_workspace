@@ -45,7 +45,6 @@ public class WorkspaceAdapter {
 			pElements = json.getJSONArray("poolElements");
 		} catch (Exception e) {
 		}
-
 			for(int i = 0; i<pElements.length();i++) {
 				Location location = new Location(pElements.getJSONObject(i).getJSONObject("pos").getInt("x"),
 							pElements.getJSONObject(i).getJSONObject("pos").getInt("y"));
@@ -59,7 +58,6 @@ public class WorkspaceAdapter {
 				poolElement.setWidth(width);
 				poolElements.add(poolElement);
 			}
-
 
 		try {
 			JSONArray pRooms = json.getJSONArray("rooms");
