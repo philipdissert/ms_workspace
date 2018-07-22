@@ -1,6 +1,7 @@
 package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure;
 
 import org.json.JSONException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.kit.cm.WorkspaceManagement.Workspace.Service.WorkspaceAdapter;
 
 
-
+@CrossOrigin
 @RestController
 public class LayoutAPIController {
 

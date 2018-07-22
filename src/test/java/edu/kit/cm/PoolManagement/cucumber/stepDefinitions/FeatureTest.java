@@ -7,8 +7,8 @@ import cucumber.api.java.en.When;
 
 public class FeatureTest {
 
-	@Then("^then icon of the device type is shon on they Position$")
-	public void thenIconOfTheDeviceTypeIsShonOnTheyPosition() throws Throwable {
+	@Then("^then icon of the device type is shown on they Position$")
+	public void thenIconOfTheDeviceTypeIsShownOnTheyPosition() throws Throwable {
 		// Write code here that turns the phrase above into concrete actions
 		throw new PendingException();
 	}
@@ -32,8 +32,8 @@ public class FeatureTest {
 		throw new PendingException();
 	}
 
-	@Then("^an Emty room plan is on the screen$")
-	public void anEmtyRoomPlanIsOnTheScreen() throws Throwable {
+	@Then("^an Empty room plan is on the screen$")
+	public void anEmptyRoomPlanIsOnTheScreen() throws Throwable {
 		// Write code here that turns the phrase above into concrete actions
 		throw new PendingException();
 	}
