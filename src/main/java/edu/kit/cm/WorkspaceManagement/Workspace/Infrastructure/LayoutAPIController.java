@@ -42,24 +42,9 @@ public class LayoutAPIController {
 			return "";
 		}
 	}
-	@GetMapping("/")
-	public String asd() {
-		return workspaceAdapter.getLayoutList().toString();
-	}
-	
-	@GetMapping("/learningDesks")
-	public String getComputers() {
-		return workspaceAdapter.getLearningDesks().toString();
-	}
-	
-	
-	@PutMapping("/Computers/{id}")
-	public void setComputerStatus() {
-		
-	}
-	
-	@PutMapping("/layout")
-	public String getTest() {		
-		return "asdfas";
+
+	@GetMapping("/opening-hours")
+	public String getOpeningHours() {
+		return workspaceAdapter.getOpeningHours().toString();
 	}
 }

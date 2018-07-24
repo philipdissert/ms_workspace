@@ -70,7 +70,7 @@ public class WorkspaceAdapterTest {
             e.fillInStackTrace();
         }
         wa.addLayout(jsonObject);
-        assertEquals(jsonObject.toString(), wa.getLayout(1).toString());
+        assertEquals(jsonObject.toString(), wa.getLayout().toString());
     }
 
 }
