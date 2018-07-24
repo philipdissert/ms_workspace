@@ -22,13 +22,10 @@ import edu.kit.cm.WorkspaceManagement.linkedContextes.Room;
 public class WorkspaceAdapter {
 	
 	private static WorkspaceAdapter workspaceAdapter = new WorkspaceAdapter();
-
-	private List<Workspace> workspace;
-	private int activeWorkspace;
+	private Workspace workspace;
 	
 	private WorkspaceAdapter() {
-		this.workspace = new ArrayList<Workspace>();
-		this.activeWorkspace = 0;
+		this.workspace = new Workspace();
 	}
 	
 	public static WorkspaceAdapter getInstance() {
@@ -80,34 +77,15 @@ public class WorkspaceAdapter {
 		} catch (Exception e) {
 			throw new IllegalArgumentException();
 		}
-		workspace.add(newWorkspace);
-	}
-	
-
-	public void setActiveLayout(int id) {
-		if (getWorkspaceIdList().contains(id)) {
-			this.activeWorkspace = getWorkspaceIdList().indexOf(id);
-		}
-	}
-	
-	public JSONArray getLayoutList() {
-		JSONArray jsonArray = new JSONArray();
-		getWorkspaceIdList().forEach(id -> {
-			jsonArray.put(id);
-		});
-		return jsonArray;
+		this.workspace = newWorkspace;
 	}
 	
 	public JSONObject getLayout() {
-		return getLayout(activeWorkspace);
-	}
-	
-	public JSONObject getLayout(int index) {
 		JSONObject json = new JSONObject();
 		JSONArray poolElementJSArray = new JSONArray();
 		JSONArray roomsJS = new JSONArray();
 		try {
-			for(PoolElement poolElement : workspace.get(index).getPoolElements()) {
+			for(PoolElement poolElement : this.workspace.getPoolElements()) {
 				JSONObject element = new JSONObject();
 				JSONObject pos = new JSONObject();
 				pos.put("x", poolElement.getLocation().getXPos());
@@ -120,7 +98,7 @@ public class WorkspaceAdapter {
 				poolElementJSArray.put(element);
 			}
 			
-			for(Room room: workspace.get(index).getRooms()) {
+			for(Room room: this.workspace.getRooms()) {
 				JSONObject roomJS = new JSONObject();
 				JSONArray locationJS = new JSONArray();
 				room.getLocation().forEach(location -> {
@@ -165,7 +143,7 @@ public class WorkspaceAdapter {
 	
 	public JSONObject getLearningDesk(int id) throws IllegalArgumentException{
 		JSONObject learningDesk = new JSONObject();
-		workspace.get(activeWorkspace).getPoolElements().forEach(poolElement -> {
+		this.workspace.getPoolElements().forEach(poolElement -> {
 			if (poolElement.getType().equals("PC") && poolElement.getId() == id) {				
 				try {
 					learningDesk.put("id", poolElement.getId());
@@ -184,7 +162,7 @@ public class WorkspaceAdapter {
 	public JSONObject getLearningDesks() {
 		JSONObject jsonObject = new JSONObject();
 		JSONArray jsonArray = new JSONArray();
-		workspace.get(activeWorkspace).getPoolElements().forEach(poolElement -> {
+		this.workspace.getPoolElements().forEach(poolElement -> {
 			JSONObject learningDesk = new JSONObject();
 			if (poolElement.getType().equals("PC")) {				
 				try {
@@ -202,24 +180,19 @@ public class WorkspaceAdapter {
 		}
 		return jsonObject;
 	}
-	
-	public JSONArray getAllPcs() {
+
+	public JSONObject getOpeningHours(){
+		JSONObject jsonObject = new JSONObject();
 		JSONArray jsonArray = new JSONArray();
-		workspace.get(activeWorkspace).getPoolElements().forEach((x) -> {
-			if(x.getType().equals("PC")) {
-				jsonArray.put(x.getId());
-			}
+		this.workspace.getOpeningHours().getOpeningHourList().forEach(openingHour -> {
+			JSONObject entry = new JSONObject();
+			entry.put("dayOfWeek", openingHour.getWeekDay());
+			entry.put("startTime", openingHour.getStart());
+			entry.put("endTime", openingHour.getEnd());
+			jsonArray.put(entry);
 		});
-		return jsonArray;
-	}
-	
-	
-	private List<Integer> getWorkspaceIdList() {
-		List<Integer> output = new ArrayList<Integer>();
-		workspace.forEach(ws -> {
-			output.add(ws.getId());
-		});
-		return output;
+		jsonObject.put("openingHours",jsonArray);
+		return jsonObject;
 	}
 	
 	private PoolElement createPoolElement(int id, String type, Location location) {
