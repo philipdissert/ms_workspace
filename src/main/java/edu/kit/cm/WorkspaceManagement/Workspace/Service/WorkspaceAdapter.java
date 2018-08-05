@@ -32,7 +32,7 @@ public class WorkspaceAdapter {
 		return workspaceAdapter;
 	}
 	
-	public void addLayout(JSONObject json) throws IllegalArgumentException{
+	public void addLayout(JSONObject json) throws IllegalArgumentException, JSONException{
 		Workspace newWorkspace = new Workspace();
 		List<PoolElement> poolElements = newWorkspace.getPoolElements();
 		List<Room>rooms = newWorkspace.getRooms();

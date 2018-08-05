@@ -1,5 +1,6 @@
 package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.json.JSONObject;
@@ -39,7 +40,7 @@ public class LayoutAPIController {
 	public JSONArray getPoolElementsJSONArray() {
 		try {
 			return workspaceAdapter.getLayout().getJSONArray("poolElements");
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return new JSONArray();
 		}
