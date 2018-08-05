@@ -42,6 +42,7 @@ public class WorkspaceAdapter {
 			pElements = json.getJSONArray("poolElements");
 		} catch (Exception e) {
 		}
+		try {			
 			for(int i = 0; i<pElements.length();i++) {
 				Location location = new Location(pElements.getJSONObject(i).getJSONObject("pos").getInt("x"),
 							pElements.getJSONObject(i).getJSONObject("pos").getInt("y"));
@@ -55,8 +56,7 @@ public class WorkspaceAdapter {
 				poolElement.setWidth(width);
 				poolElements.add(poolElement);
 			}
-
-		try {
+			
 			JSONArray pRooms = json.getJSONArray("rooms");
 			for(int i = 0; i<pRooms.length(); i++) {
 				List<Location> location = new ArrayList<Location>();
@@ -181,15 +181,19 @@ public class WorkspaceAdapter {
 		return jsonObject;
 	}
 
-	public JSONObject getOpeningHours(){
+	public JSONObject getOpeningHours() throws JSONException{
 		JSONObject jsonObject = new JSONObject();
 		JSONArray jsonArray = new JSONArray();
 		this.workspace.getOpeningHours().getOpeningHourList().forEach(openingHour -> {
 			JSONObject entry = new JSONObject();
-			entry.put("dayOfWeek", openingHour.getWeekDay());
-			entry.put("startTime", openingHour.getStart());
-			entry.put("endTime", openingHour.getEnd());
-			jsonArray.put(entry);
+			try {
+				entry.put("dayOfWeek", openingHour.getWeekDay());
+				entry.put("startTime", openingHour.getStart());
+				entry.put("endTime", openingHour.getEnd());
+				jsonArray.put(entry);	
+			} catch (Exception e) {
+				
+			}			
 		});
 		jsonObject.put("openingHours",jsonArray);
 		return jsonObject;
