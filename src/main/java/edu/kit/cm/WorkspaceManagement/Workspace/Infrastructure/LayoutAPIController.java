@@ -37,12 +37,12 @@ public class LayoutAPIController {
 	}
 	
 	@GetMapping("/layout/poolElementsJSONArray")
-	public JSONArray getPoolElementsJSONArray() {
+	public String getPoolElementsJSONArray() {
 		try {
-			return workspaceAdapter.getLayout().getJSONArray("poolElements");
+			return workspaceAdapter.getLayout().getJSONArray("poolElements").toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new JSONArray();
+			return "";
 		}
 	}
 	
@@ -63,13 +63,13 @@ public class LayoutAPIController {
 	}
 	
 	@GetMapping("/getComputersWithState")
-	public JSONObject getComputersWithState() {
+	public String getComputersWithState() {
 		try {
-			return computerStateATISAdapter.getComputersWithStatesFromATISJSON();
+			return computerStateATISAdapter.getComputersWithStatesFromATISJSON().toString();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return new JSONObject();
+			return "";
 		}
 	}
 }
