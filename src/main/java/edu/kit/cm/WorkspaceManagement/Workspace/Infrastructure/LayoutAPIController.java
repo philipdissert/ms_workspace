@@ -1,9 +1,11 @@
 package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure;
 
 import edu.kit.cm.WorkspaceManagement.Workspace.Service.WorkspaceDataService;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,9 +17,12 @@ import edu.kit.cm.WorkspaceManagement.Workspace.Service.WorkspaceAdapter;
 @RestController
 public class LayoutAPIController {
 
+
 	private WorkspaceAdapter workspaceAdapter = WorkspaceAdapter.getInstance();
 	@Autowired
 	private WorkspaceDataService workspaceDataService;
+
+	ComputerStateATISAdapter computerStateATISAdapter = new ComputerStateATISAdapter();
 	
 
 //	@RequestMapping(value = "/layout", produces = {JSON, JSON_UTF8}, method = RequestMethod.GET)
@@ -37,6 +42,17 @@ public class LayoutAPIController {
 		}
 	}
 	
+	@GetMapping("/layout/poolElementsJSONArray")
+	public String getPoolElementsJSONArray() {
+		try {
+			return workspaceAdapter.getLayout().getJSONArray("poolElements").toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+		}
+	}
+	
+	
 	@GetMapping("/layout/rooms")
 	public String getRooms() {
 		try {
@@ -48,7 +64,18 @@ public class LayoutAPIController {
 	}
 
 	@GetMapping("/opening-hours")
-	public String getOpeningHours() {
+	public String getOpeningHours() throws JSONException {
 		return workspaceAdapter.getOpeningHours().toString();
+	}
+	
+	@GetMapping("/getComputersWithState")
+	public String getComputersWithState() {
+		try {
+			return computerStateATISAdapter.getComputersWithStatesFromATISJSON().toString();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "";
+		}
 	}
 }

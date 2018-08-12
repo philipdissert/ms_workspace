@@ -60,7 +60,6 @@ public class PoolController{
 				"{\"pos\":{\"x\":80,\"y\":132},\"width\":10,\"length\":10,\"id\":41,\"type\":\"PC\"},\n" +
 				"{\"pos\":{\"x\":80,\"y\":142},\"width\":10,\"length\":10,\"id\":42,\"type\":\"PC\"},\n" +
 				"{\"pos\":{\"x\":90,\"y\":142},\"width\":10,\"length\":10,\"id\":43,\"type\":\"PC\"},\n" +
-				"{\"pos\":{\"x\":100,\"y\":62},\"width\":2,\"length\":100,\"id\":0,\"type\":\"PC\"},\n" +
 				"{\"pos\":{\"x\":102,\"y\":62},\"width\":10,\"length\":10,\"id\":44,\"type\":\"PC\"},\n" +
 				"{\"pos\":{\"x\":112,\"y\":62},\"width\":10,\"length\":10,\"id\":45,\"type\":\"PC\"},\n" +
 				"{\"pos\":{\"x\":102,\"y\":72},\"width\":10,\"length\":10,\"id\":46,\"type\":\"PC\"},\n" +

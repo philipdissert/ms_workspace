@@ -25,19 +25,19 @@ public class WorkspaceAdapterTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void getLayoutTestException0() {
+    public void getLayoutTestException0() throws Exception {
         wa.addLayout(jsonObject);
         assertEquals(jsonObject, wa.getLayout());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void getLayoutTestException1() {
+    public void getLayoutTestException1() throws Exception {
         wa.addLayout(jsonObject);
         assertEquals(jsonObject, wa.getLayout());
     }
 
     @Test
-    public void getLayoutTest0() {
+    public void getLayoutTest0() throws Exception {
         try {
             jsonObject = new JSONObject("{\"rooms\":[{\"pos\"\t\t\t:[{\"x\":1,\"y\":1},{\"x\":1,\"y\":1},{\"x\":1,\"y\":1},{\"x\":1,\"y\":1}],\n" +
                     "  \"id\" \t\t\t:1,\n" +
@@ -54,7 +54,7 @@ public class WorkspaceAdapterTest {
     }
 
     @Test
-    public void getLayoutTest1() {
+    public void getLayoutTest1() throws Exception {
         try {
             jsonObject = new JSONObject("{\"rooms\":[{\"pos\"\t\t\t:[{\"x\":1,\"y\":1},{\"x\":1,\"y\":1},{\"x\":1,\"y\":1},{\"x\":1,\"y\":1}],\n" +
                     "  \"id\" \t\t\t:1,\n" +
