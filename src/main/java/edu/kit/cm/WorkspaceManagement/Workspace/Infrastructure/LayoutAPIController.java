@@ -1,6 +1,8 @@
 package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure;
 
+import edu.kit.cm.WorkspaceManagement.Workspace.Service.WorkspaceDataService;
 import org.json.JSONException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,7 +15,9 @@ import edu.kit.cm.WorkspaceManagement.Workspace.Service.WorkspaceAdapter;
 @RestController
 public class LayoutAPIController {
 
-	WorkspaceAdapter workspaceAdapter = WorkspaceAdapter.getInstance();
+	private WorkspaceAdapter workspaceAdapter = WorkspaceAdapter.getInstance();
+	@Autowired
+	private WorkspaceDataService workspaceDataService;
 	
 
 //	@RequestMapping(value = "/layout", produces = {JSON, JSON_UTF8}, method = RequestMethod.GET)

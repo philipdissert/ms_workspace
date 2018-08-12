@@ -3,6 +3,7 @@ package edu.kit.cm.WorkspaceManagement.Workspace.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,9 +12,8 @@ import edu.kit.cm.WorkspaceManagement.Workspace.Domain.LearningDeskLaptop;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.LearningDeskPc;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Location;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Workspace;
-import edu.kit.cm.WorkspaceManagement.Workspace.Domain.PoolElement;
+import edu.kit.cm.WorkspaceManagement.Workspace.Domain.WorkspaceElement;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Printer;
-import edu.kit.cm.WorkspaceManagement.Workspace.Domain.WirlessAccessPoint;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.Passage;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.Door;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.PortalGate;
@@ -22,6 +22,7 @@ import edu.kit.cm.WorkspaceManagement.linkedContextes.Room;
 public class WorkspaceAdapter {
 	
 	private static WorkspaceAdapter workspaceAdapter = new WorkspaceAdapter();
+	@Getter
 	private Workspace workspace;
 	
 	private WorkspaceAdapter() {
@@ -34,7 +35,7 @@ public class WorkspaceAdapter {
 	
 	public void addLayout(JSONObject json) throws IllegalArgumentException{
 		Workspace newWorkspace = new Workspace();
-		List<PoolElement> poolElements = newWorkspace.getPoolElements();
+		List<WorkspaceElement> workspaceElements = newWorkspace.getWorkspaceElements();
 		List<Room>rooms = newWorkspace.getRooms();
 
 		JSONArray pElements = new JSONArray();
@@ -50,10 +51,10 @@ public class WorkspaceAdapter {
 				int length = pElements.getJSONObject(i).getInt("length");
 				int width = pElements.getJSONObject(i).getInt("width");
 
-				PoolElement poolElement = createPoolElement(id, type, location);
-				poolElement.setLength(length);
-				poolElement.setWidth(width);
-				poolElements.add(poolElement);
+				WorkspaceElement workspaceElement = createPoolElement(id, type, location);
+				workspaceElement.setLength(length);
+				workspaceElement.setWidth(width);
+				workspaceElements.add(workspaceElement);
 			}
 
 		try {
@@ -85,16 +86,16 @@ public class WorkspaceAdapter {
 		JSONArray poolElementJSArray = new JSONArray();
 		JSONArray roomsJS = new JSONArray();
 		try {
-			for(PoolElement poolElement : this.workspace.getPoolElements()) {
+			for(WorkspaceElement workspaceElement : this.workspace.getWorkspaceElements()) {
 				JSONObject element = new JSONObject();
 				JSONObject pos = new JSONObject();
-				pos.put("x", poolElement.getLocation().getXPos());
-				pos.put("y", poolElement.getLocation().getYPos());
-				element.put("id",poolElement.getId());
+				pos.put("x", workspaceElement.getLocation().getXPos());
+				pos.put("y", workspaceElement.getLocation().getYPos());
+				element.put("id", workspaceElement.getId());
 				element.put("pos", pos);
-				element.put("type", poolElement.getType());
-				element.put("width", poolElement.getWidth());
-				element.put("length", poolElement.getLength());
+				element.put("type", workspaceElement.getType());
+				element.put("width", workspaceElement.getWidth());
+				element.put("length", workspaceElement.getLength());
 				poolElementJSArray.put(element);
 			}
 			
@@ -143,7 +144,7 @@ public class WorkspaceAdapter {
 	
 	public JSONObject getLearningDesk(int id) throws IllegalArgumentException{
 		JSONObject learningDesk = new JSONObject();
-		this.workspace.getPoolElements().forEach(poolElement -> {
+		this.workspace.getWorkspaceElements().forEach(poolElement -> {
 			if (poolElement.getType().equals("PC") && poolElement.getId() == id) {				
 				try {
 					learningDesk.put("id", poolElement.getId());
@@ -162,7 +163,7 @@ public class WorkspaceAdapter {
 	public JSONObject getLearningDesks() {
 		JSONObject jsonObject = new JSONObject();
 		JSONArray jsonArray = new JSONArray();
-		this.workspace.getPoolElements().forEach(poolElement -> {
+		this.workspace.getWorkspaceElements().forEach(poolElement -> {
 			JSONObject learningDesk = new JSONObject();
 			if (poolElement.getType().equals("PC")) {				
 				try {
@@ -195,11 +196,10 @@ public class WorkspaceAdapter {
 		return jsonObject;
 	}
 	
-	private PoolElement createPoolElement(int id, String type, Location location) {
+	private WorkspaceElement createPoolElement(int id, String type, Location location) {
 		switch(type) {
 			case "PC": 			return new LearningDeskPc(id, location);
 			case "Laptop": 		return new LearningDeskLaptop(id, location);
-			case "wap": 		return new WirlessAccessPoint(id, location);
 			case "Printer":		return new Printer(id, location);	
 			default : 			return null;
 		}

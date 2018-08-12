@@ -2,7 +2,7 @@ package edu.kit.cm.WorkspaceManagement.Workspace.Domain;
 
 
 
-public class LearningDeskPc extends PoolElement {
+public class LearningDeskPc extends WorkspaceElement {
 	
 
 	public LearningDeskPc(int id, Location location) {		

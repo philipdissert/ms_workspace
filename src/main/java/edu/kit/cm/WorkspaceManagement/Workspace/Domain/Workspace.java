@@ -13,13 +13,13 @@ import lombok.Setter;
 public class Workspace extends Room {
 	private static int newId = 0;
 	
-	private List<PoolElement> poolElements;
+	private List<WorkspaceElement> workspaceElements;
 	private List<Room> rooms;
 	private OpeningHours openingHours;
 	private int id;
 	
 	public Workspace() {
-		this.poolElements = new ArrayList<>();
+		this.workspaceElements = new ArrayList<>();
 		this.rooms = new ArrayList<>();
 		this.id = newId++;
 		this.openingHours = new OpeningHours();

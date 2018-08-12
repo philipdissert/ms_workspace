@@ -1,3 +1,4 @@
+package edu.kit.cm.WorkspaceManagement.unit;
 
 import edu.kit.cm.WorkspaceManagement.Workspace.Service.WorkspaceAdapter;
 import org.json.JSONArray;

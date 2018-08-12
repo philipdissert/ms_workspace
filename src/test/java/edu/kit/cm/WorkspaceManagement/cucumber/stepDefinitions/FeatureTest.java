@@ -1,9 +1,8 @@
-package edu.kit.cm.PoolManagement.cucumber.stepDefinitions;
+package edu.kit.cm.WorkspaceManagement.cucumber.stepDefinitions;
 
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 
 public class FeatureTest {
 

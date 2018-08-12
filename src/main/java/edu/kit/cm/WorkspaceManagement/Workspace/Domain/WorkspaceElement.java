@@ -5,14 +5,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Getter@Setter@ToString
-public abstract class PoolElement {
+public abstract class WorkspaceElement {
 	private Location location;
 	private int id;
 	private String type;
 	private int length;
 	private int width;
 	
-	public PoolElement(int id, String type, Location location) {
+	public WorkspaceElement(int id, String type, Location location) {
 		this.id = id;
 		this.type = type;
 		this.location = location;
