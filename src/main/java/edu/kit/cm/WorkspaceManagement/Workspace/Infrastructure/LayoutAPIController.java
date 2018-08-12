@@ -1,7 +1,11 @@
 package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure;
 
+import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Location;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.kit.cm.WorkspaceManagement.Workspace.Service.WorkspaceAdapter;
+
+import javax.xml.ws.Response;
 
 
 @CrossOrigin
@@ -24,6 +30,12 @@ public class LayoutAPIController {
 	@GetMapping("/layout")
 	public String getLayout() {		
 		return workspaceAdapter.getLayout().toString();
+	}
+
+	@GetMapping("/test")
+	public ResponseEntity<Location> getTest() {
+		Location loc = new Location(1,2);
+		return new ResponseEntity<>(loc, HttpStatus.OK);
 	}
 	
 	@GetMapping("/layout/poolElements")
