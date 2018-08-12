@@ -18,7 +18,9 @@ import edu.kit.cm.WorkspaceManagement.linkedContextes.Passage;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.Door;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.PortalGate;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.Room;
+import org.springframework.stereotype.Service;
 
+@Service
 public class WorkspaceAdapter {
 	
 	private static WorkspaceAdapter workspaceAdapter = new WorkspaceAdapter();
@@ -33,7 +35,7 @@ public class WorkspaceAdapter {
 		return workspaceAdapter;
 	}
 	
-	public void addLayout(JSONObject json) throws IllegalArgumentException, JSONException{
+	public Workspace addLayout(JSONObject json) throws IllegalArgumentException, JSONException{
 		Workspace newWorkspace = new Workspace();
 		List<WorkspaceElement> workspaceElements = newWorkspace.getWorkspaceElements();
 		List<Room>rooms = newWorkspace.getRooms();
@@ -79,14 +81,19 @@ public class WorkspaceAdapter {
 			throw new IllegalArgumentException();
 		}
 		this.workspace = newWorkspace;
+		return newWorkspace;
 	}
-	
+
 	public JSONObject getLayout() {
+		return getLayout(this.workspace);
+	}
+
+	public JSONObject getLayout(Workspace localWorkspace) {
 		JSONObject json = new JSONObject();
 		JSONArray poolElementJSArray = new JSONArray();
 		JSONArray roomsJS = new JSONArray();
 		try {
-			for(WorkspaceElement workspaceElement : this.workspace.getWorkspaceElements()) {
+			for(WorkspaceElement workspaceElement : localWorkspace.getWorkspaceElements()) {
 				JSONObject element = new JSONObject();
 				JSONObject pos = new JSONObject();
 				pos.put("x", workspaceElement.getLocation().getXPos());
@@ -99,7 +106,7 @@ public class WorkspaceAdapter {
 				poolElementJSArray.put(element);
 			}
 			
-			for(Room room: this.workspace.getRooms()) {
+			for(Room room: localWorkspace.getRooms()) {
 				JSONObject roomJS = new JSONObject();
 				JSONArray locationJS = new JSONArray();
 				room.getLocation().forEach(location -> {

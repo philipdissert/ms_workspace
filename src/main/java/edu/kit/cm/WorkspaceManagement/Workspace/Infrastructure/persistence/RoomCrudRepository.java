@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface WorkspaceElementCrudRepository extends CrudRepository<WorkspaceElementJPA, Long> {
-    public List<WorkspaceElementJPA> findByWorkspaceElementIdentifierWorkspaceId(int workspaceId);
-
-
+public interface RoomCrudRepository extends CrudRepository<RoomJPA, Long> {
+    public List<RoomJPA> findByRoomIdentifierWorkspaceId(int workspaceId);
 }

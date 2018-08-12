@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter@Setter
-public class Workspace extends Room {
+public class Workspace {
 	private static int newId = 0;
 	
 	private List<WorkspaceElement> workspaceElements;
@@ -30,4 +30,11 @@ public class Workspace extends Room {
 		this.openingHours.addOpeningHour(new OpeningHour(DayOfWeek.FRIDAY, LocalTime.of(7,0,0), LocalTime.of(21,0,0)));
 		this.openingHours.addOpeningHour(new OpeningHour(DayOfWeek.SATURDAY, LocalTime.of(7,0,0), LocalTime.of(14,0,0)));
 	}
+	public Workspace(int id, List<WorkspaceElement> workspaceElementList, List<Room> roomList) {
+		this();
+		this.id = id;
+		this.workspaceElements = workspaceElementList;
+		this.rooms = roomList;
+	}
+
 }

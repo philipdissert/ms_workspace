@@ -2,6 +2,7 @@ package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence;
 
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.LearningDeskLaptop;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.LearningDeskPc;
+import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Printer;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.WorkspaceElement;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,7 @@ public class WorkspaceElementMapper {
         switch (type) {
             case "PC": workspaceElement = new LearningDeskPc(workspaceElementJPA.workspaceElementIdentifier.getWorkspaceElementId(), locationMapper.map(workspaceElementJPA.getLocationJPA())); break;
             case "Laptop": workspaceElement = new LearningDeskLaptop(workspaceElementJPA.workspaceElementIdentifier.getWorkspaceElementId(), locationMapper.map(workspaceElementJPA.getLocationJPA())); break;
+            case "printer": workspaceElement = new Printer(workspaceElementJPA.workspaceElementIdentifier.getWorkspaceElementId(), locationMapper.map(workspaceElementJPA.getLocationJPA())); break;
             default: workspaceElement = null;
         }
 
