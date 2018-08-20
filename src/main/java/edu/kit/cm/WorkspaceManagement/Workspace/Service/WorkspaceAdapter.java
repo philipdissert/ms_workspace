@@ -30,7 +30,7 @@ public class WorkspaceAdapter {
 	@Getter
 	private Workspace workspace;
 	
-	private WorkspaceAdapter() {
+	public WorkspaceAdapter() {
 		this.workspace = new Workspace();
 	}
 
