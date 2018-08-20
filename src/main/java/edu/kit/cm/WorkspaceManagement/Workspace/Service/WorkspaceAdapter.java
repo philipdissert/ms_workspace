@@ -18,136 +18,39 @@ import edu.kit.cm.WorkspaceManagement.linkedContextes.Passage;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.Door;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.PortalGate;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.Room;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service@Scope("singleton")
 public class WorkspaceAdapter {
-	
-	private static WorkspaceAdapter workspaceAdapter = new WorkspaceAdapter();
+	@Autowired
+	private WorkspaceDataService workspaceDataService;
+
 	@Getter
 	private Workspace workspace;
 	
 	private WorkspaceAdapter() {
 		this.workspace = new Workspace();
 	}
-	
-	public static WorkspaceAdapter getInstance() {
-		return workspaceAdapter;
-	}
-	
-	public Workspace addLayout(JSONObject json) throws IllegalArgumentException, JSONException{
-		Workspace newWorkspace = new Workspace();
-		List<WorkspaceElement> workspaceElements = newWorkspace.getWorkspaceElements();
-		List<Room>rooms = newWorkspace.getRooms();
-
-		JSONArray pElements = new JSONArray();
-		try {
-			pElements = json.getJSONArray("poolElements");
-		} catch (Exception e) {
-		}
-			for(int i = 0; i<pElements.length();i++) {
-				Location location = new Location(pElements.getJSONObject(i).getJSONObject("pos").getInt("x"),
-							pElements.getJSONObject(i).getJSONObject("pos").getInt("y"));
-				int id = pElements.getJSONObject(i).getInt("id");
-				String type = pElements.getJSONObject(i).getString("type");
-				int length = pElements.getJSONObject(i).getInt("length");
-				int width = pElements.getJSONObject(i).getInt("width");
-
-				WorkspaceElement workspaceElement = createPoolElement(id, type, location);
-				workspaceElement.setLength(length);
-				workspaceElement.setWidth(width);
-				workspaceElements.add(workspaceElement);
-			}
-
-		try {
-			JSONArray pRooms = json.getJSONArray("rooms");
-			for(int i = 0; i<pRooms.length(); i++) {
-				List<Location> location = new ArrayList<Location>();
-				List<PortalGate> portalGate = new ArrayList<PortalGate>();
-				for (int k = 0; k < pRooms.getJSONObject(i).getJSONArray("pos").length(); k++) {
-					JSONArray pos = pRooms.getJSONObject(i).getJSONArray("pos");
-					location.add(new Location(pos.getJSONObject(k).getInt("x"), pos.getJSONObject(k).getInt("y")));					
-				}
-				
-				for (int k = 0; k < pRooms.getJSONObject(i).getJSONArray("portalGates").length(); k++) {										
-					portalGate.add(parsePortalGate(pRooms.getJSONObject(i).getJSONArray("portalGates").getJSONObject(k)));
-				}
-				int id = pRooms.getJSONObject(i).getInt("id");
-					
-				Room room = new Room(portalGate, location, id);
-				rooms.add(room);
-			}
-		} catch (Exception e) {
-			throw new IllegalArgumentException();
-		}
-		this.workspace = newWorkspace;
-		return newWorkspace;
-	}
 
 	public JSONObject getLayout() {
 		return getLayout(this.workspace);
 	}
 
-	public JSONObject getLayout(Workspace localWorkspace) {
-		JSONObject json = new JSONObject();
-		JSONArray poolElementJSArray = new JSONArray();
-		JSONArray roomsJS = new JSONArray();
-		try {
-			for(WorkspaceElement workspaceElement : localWorkspace.getWorkspaceElements()) {
-				JSONObject element = new JSONObject();
-				JSONObject pos = new JSONObject();
-				pos.put("x", workspaceElement.getLocation().getXPos());
-				pos.put("y", workspaceElement.getLocation().getYPos());
-				element.put("id", workspaceElement.getId());
-				element.put("pos", pos);
-				element.put("type", workspaceElement.getType());
-				element.put("width", workspaceElement.getWidth());
-				element.put("length", workspaceElement.getLength());
-				poolElementJSArray.put(element);
-			}
-			
-			for(Room room: localWorkspace.getRooms()) {
-				JSONObject roomJS = new JSONObject();
-				JSONArray locationJS = new JSONArray();
-				room.getLocation().forEach(location -> {
-					JSONObject pos = new JSONObject();
-					try {
-						pos.put("x", location.getXPos());
-						pos.put("y", location.getYPos());
-					} catch (JSONException e) {
-
-					}
-					locationJS.put(pos);
-				});
-				roomJS.put("pos", locationJS);
-				roomJS.put("id", room.getId());
-				JSONArray portalGateJSArray = new JSONArray();
-				for(PortalGate portalGate : room.getPortalGate()) {
-					JSONObject portalGateJS = new JSONObject();
-					JSONArray locationPortalGateJS = new JSONArray();
-					portalGate.getLocation().forEach(location -> {
-						JSONObject pos = new JSONObject();
-						try {
-							pos.put("x", location.getXPos());
-							pos.put("y", location.getYPos());
-						} catch (JSONException e) {
-						}
-						locationPortalGateJS.put(pos);
-					});
-					portalGateJS.put("pos", locationPortalGateJS);
-					portalGateJS.put("type", portalGate.getType());					
-					portalGateJSArray.put(portalGateJS);
-				}
-				roomJS.put("portalGates", portalGateJSArray);
-				roomsJS.put(roomJS);
-			}
-			json.put("poolElements", poolElementJSArray);
-			json.put("rooms", roomsJS);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return json;
+	public JSONObject getLayout(Workspace workspace) {
+		return workspaceToJson(workspace);
 	}
+
+	public void addLayout(JSONObject jsonObject) {
+		workspaceDataService.safeWorkspace(jsonToWorkspace(jsonObject));
+	}
+
+	public void changeToLayout(int id) {
+		workspace = workspaceDataService.getWorkspace(id);
+	}
+
+
 	
 	public JSONObject getLearningDesk(int id) throws IllegalArgumentException{
 		JSONObject learningDesk = new JSONObject();
@@ -239,6 +142,122 @@ public class WorkspaceAdapter {
 			case "passage":			return new Passage(location);
 			default :				return null;
 		}
+	}
+
+	public void init() {
+		if (workspaceDataService.getWorkspaceList() == null || workspaceDataService.getWorkspaceList().size() == 0) {
+			PoolController.init(this);
+		}
+		changeToLayout(workspaceDataService.getWorkspaceList().get(0));
+	}
+
+	private Workspace jsonToWorkspace(JSONObject json) throws IllegalArgumentException, JSONException{
+		Workspace newWorkspace = new Workspace();
+		List<WorkspaceElement> workspaceElements = newWorkspace.getWorkspaceElements();
+		List<Room>rooms = newWorkspace.getRooms();
+
+		JSONArray pElements = new JSONArray();
+		try {
+			pElements = json.getJSONArray("poolElements");
+		} catch (Exception e) {
+		}
+		for(int i = 0; i<pElements.length();i++) {
+			Location location = new Location(pElements.getJSONObject(i).getJSONObject("pos").getInt("x"),
+					pElements.getJSONObject(i).getJSONObject("pos").getInt("y"));
+			int id = pElements.getJSONObject(i).getInt("id");
+			String type = pElements.getJSONObject(i).getString("type");
+			int length = pElements.getJSONObject(i).getInt("length");
+			int width = pElements.getJSONObject(i).getInt("width");
+
+			WorkspaceElement workspaceElement = createPoolElement(id, type, location);
+			workspaceElement.setLength(length);
+			workspaceElement.setWidth(width);
+			workspaceElements.add(workspaceElement);
+		}
+
+		try {
+			JSONArray pRooms = json.getJSONArray("rooms");
+			for(int i = 0; i<pRooms.length(); i++) {
+				List<Location> location = new ArrayList<Location>();
+				List<PortalGate> portalGate = new ArrayList<PortalGate>();
+				for (int k = 0; k < pRooms.getJSONObject(i).getJSONArray("pos").length(); k++) {
+					JSONArray pos = pRooms.getJSONObject(i).getJSONArray("pos");
+					location.add(new Location(pos.getJSONObject(k).getInt("x"), pos.getJSONObject(k).getInt("y")));
+				}
+
+				for (int k = 0; k < pRooms.getJSONObject(i).getJSONArray("portalGates").length(); k++) {
+					portalGate.add(parsePortalGate(pRooms.getJSONObject(i).getJSONArray("portalGates").getJSONObject(k)));
+				}
+				int id = pRooms.getJSONObject(i).getInt("id");
+
+				Room room = new Room(portalGate, location, id);
+				rooms.add(room);
+			}
+		} catch (Exception e) {
+			throw new IllegalArgumentException();
+		}
+		return newWorkspace;
+	}
+
+	public JSONObject workspaceToJson(Workspace localWorkspace) {
+		JSONObject json = new JSONObject();
+		JSONArray poolElementJSArray = new JSONArray();
+		JSONArray roomsJS = new JSONArray();
+		try {
+			for(WorkspaceElement workspaceElement : localWorkspace.getWorkspaceElements()) {
+				JSONObject element = new JSONObject();
+				JSONObject pos = new JSONObject();
+				pos.put("x", workspaceElement.getLocation().getXPos());
+				pos.put("y", workspaceElement.getLocation().getYPos());
+				element.put("id", workspaceElement.getId());
+				element.put("pos", pos);
+				element.put("type", workspaceElement.getType());
+				element.put("width", workspaceElement.getWidth());
+				element.put("length", workspaceElement.getLength());
+				poolElementJSArray.put(element);
+			}
+
+			for(Room room: localWorkspace.getRooms()) {
+				JSONObject roomJS = new JSONObject();
+				JSONArray locationJS = new JSONArray();
+				room.getLocation().forEach(location -> {
+					JSONObject pos = new JSONObject();
+					try {
+						pos.put("x", location.getXPos());
+						pos.put("y", location.getYPos());
+					} catch (JSONException e) {
+
+					}
+					locationJS.put(pos);
+				});
+				roomJS.put("pos", locationJS);
+				roomJS.put("id", room.getId());
+				JSONArray portalGateJSArray = new JSONArray();
+				for(PortalGate portalGate : room.getPortalGate()) {
+					JSONObject portalGateJS = new JSONObject();
+					JSONArray locationPortalGateJS = new JSONArray();
+					portalGate.getLocation().forEach(location -> {
+						JSONObject pos = new JSONObject();
+						try {
+							pos.put("x", location.getXPos());
+							pos.put("y", location.getYPos());
+						} catch (JSONException e) {
+						}
+						locationPortalGateJS.put(pos);
+					});
+					portalGateJS.put("pos", locationPortalGateJS);
+					portalGateJS.put("type", portalGate.getType());
+					portalGateJSArray.put(portalGateJS);
+				}
+				roomJS.put("portalGates", portalGateJSArray);
+				roomsJS.put(roomJS);
+			}
+			json.put("poolElements", poolElementJSArray);
+			json.put("rooms", roomsJS);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return json;
 	}
 
 }

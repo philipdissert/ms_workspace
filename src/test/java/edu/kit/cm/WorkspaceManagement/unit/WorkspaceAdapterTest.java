@@ -7,16 +7,17 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.assertEquals;
 
 public class WorkspaceAdapterTest {
     JSONObject jsonObject;
+    @Autowired
     private static WorkspaceAdapter wa;
 
     @BeforeClass
     public static void initClass() {
-        wa = WorkspaceAdapter.getInstance();
     }
 
     @Before

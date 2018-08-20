@@ -1,5 +1,6 @@
 package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure;
 
+import edu.kit.cm.WorkspaceManagement.Workspace.Service.PoolController;
 import edu.kit.cm.WorkspaceManagement.Workspace.Service.WorkspaceDataService;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,7 +15,8 @@ import edu.kit.cm.WorkspaceManagement.Workspace.Service.WorkspaceAdapter;
 @RestController
 public class LayoutAPIController {
 
-	private WorkspaceAdapter workspaceAdapter = WorkspaceAdapter.getInstance();
+	@Autowired
+	private WorkspaceAdapter workspaceAdapter;
 
 	@Autowired
 	private WorkspaceDataService workspaceDataService;
@@ -80,5 +82,11 @@ public class LayoutAPIController {
 	@GetMapping("/layout/id/{id}")
 	public String getWorkspaceById(@PathVariable("id") int id) {
 		return workspaceAdapter.getLayout(workspaceDataService.getWorkspace(id)).toString();
+	}
+
+	@GetMapping("/init")
+	public String init() {
+		workspaceAdapter.init();
+		return "init";
 	}
 }

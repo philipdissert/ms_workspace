@@ -1,5 +1,6 @@
 package edu.kit.cm.WorkspaceManagement.Workspace.Service;
 
+import io.swagger.annotations.Scope;
 import org.json.JSONException;
 import org.json.JSONObject;
 
