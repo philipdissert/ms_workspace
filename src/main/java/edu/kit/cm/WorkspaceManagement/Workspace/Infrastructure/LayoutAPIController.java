@@ -5,6 +5,8 @@ import edu.kit.cm.WorkspaceManagement.Workspace.Service.WorkspaceDataService;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.json.JSONObject;
 
@@ -30,6 +32,16 @@ public class LayoutAPIController {
 	public String getLayout() {		
 		workspaceDataService.safeWorkspace(workspaceAdapter.getWorkspace());
 		return workspaceAdapter.getLayout().toString();
+	}
+
+	@GetMapping("/layout/id/{id}")
+	public String getWorkspaceById(@PathVariable("id") int id) {
+		return workspaceAdapter.getLayout(id).toString();
+	}
+
+	@GetMapping("/layout-list")
+	public String getLayoutList() {
+		return workspaceAdapter.getLayoutList().toString();
 	}
 	
 	@GetMapping("/layout/poolElements")
@@ -63,6 +75,17 @@ public class LayoutAPIController {
 		}
 	}
 
+	@GetMapping("/change-layout/id/{id}")
+	public String changeLayout(@PathVariable int id){
+		workspaceAdapter.changeToLayout(id);
+		return workspaceAdapter.getLayout().toString();
+	}
+
+	@PostMapping
+	public void addLayout(@RequestBody String input) {
+		JSONObject jsonObject = new JSONObject(input);
+		workspaceAdapter.addLayout(jsonObject);
+	}
 	@GetMapping("/opening-hours")
 	public String getOpeningHours() throws JSONException {
 		return workspaceAdapter.getOpeningHours().toString();
@@ -79,10 +102,6 @@ public class LayoutAPIController {
 		}
 	}
 
-	@GetMapping("/layout/id/{id}")
-	public String getWorkspaceById(@PathVariable("id") int id) {
-		return workspaceAdapter.getLayout(workspaceDataService.getWorkspace(id)).toString();
-	}
 
 	@GetMapping("/init")
 	public String init() {

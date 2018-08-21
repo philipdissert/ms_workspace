@@ -42,6 +42,17 @@ public class WorkspaceAdapter {
 		return workspaceToJson(workspace);
 	}
 
+	public JSONObject getLayout(int id) {return getLayout(workspaceDataService.getWorkspace(id)); }
+
+	public JSONArray getLayoutList() {
+		JSONArray jsonArray = new JSONArray();
+		List<Integer> list = workspaceDataService.getWorkspaceList();
+		list.forEach(x-> {
+			jsonArray.put(x);
+		});
+		return jsonArray;
+	}
+
 	public void addLayout(JSONObject jsonObject) {
 		workspaceDataService.safeWorkspace(jsonToWorkspace(jsonObject));
 	}
