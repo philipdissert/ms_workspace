@@ -12,6 +12,8 @@ import org.json.JSONObject;
 
 import edu.kit.cm.WorkspaceManagement.Workspace.Service.WorkspaceAdapter;
 
+import javax.xml.ws.Response;
+
 
 @CrossOrigin
 @RestController
@@ -34,6 +36,7 @@ public class LayoutAPIController {
 		return workspaceAdapter.getLayout().toString();
 	}
 
+
 	@GetMapping("/layout/id/{id}")
 	public String getWorkspaceById(@PathVariable("id") int id) {
 		return workspaceAdapter.getLayout(id).toString();
@@ -42,6 +45,11 @@ public class LayoutAPIController {
 	@GetMapping("/layout-list")
 	public String getLayoutList() {
 		return workspaceAdapter.getLayoutList().toString();
+
+	@GetMapping("/test")
+	public ResponseEntity<Location> getTest() {
+		Location loc = new Location(1,2);
+		return new ResponseEntity<>(loc, HttpStatus.OK);
 	}
 	
 	@GetMapping("/layout/poolElements")
@@ -101,7 +109,6 @@ public class LayoutAPIController {
 			return "";
 		}
 	}
-
 
 	@GetMapping("/init")
 	public String init() {
