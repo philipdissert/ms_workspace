@@ -1,8 +1,7 @@
 package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure;
 
-import edu.kit.cm.WorkspaceManagement.Workspace.Service.PoolController;
+import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Location;
 import edu.kit.cm.WorkspaceManagement.Workspace.Service.WorkspaceDataService;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,13 +44,8 @@ public class LayoutAPIController {
 	@GetMapping("/layout-list")
 	public String getLayoutList() {
 		return workspaceAdapter.getLayoutList().toString();
-
-	@GetMapping("/test")
-	public ResponseEntity<Location> getTest() {
-		Location loc = new Location(1,2);
-		return new ResponseEntity<>(loc, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/layout/poolElements")
 	public String getPoolElements() {
 		try {
@@ -114,5 +108,19 @@ public class LayoutAPIController {
 	public String init() {
 		workspaceAdapter.init();
 		return "init";
+	}
+
+
+
+
+	@GetMapping("/ResponseEntityTest")
+	public ResponseEntity<Location> responseEntityTest() {
+		Location loc = new Location(1,2);
+		return new ResponseEntity<>(loc, HttpStatus.OK);
+	}
+
+	@GetMapping("/SecureTest")
+	public String secureTest() {
+		return "Correct";
 	}
 }
