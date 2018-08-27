@@ -83,8 +83,9 @@ public class LayoutAPIController {
 		return workspaceAdapter.getLayout().toString();
 	}
 
-	@PostMapping("/add-layout")
-	public void addLayout(@RequestBody String input) {
+	@PostMapping("/add-layout/id/{id}")
+	public void addLayout(@RequestBody String input,@PathVariable int id) {
+		System.out.println(input);
 		JSONObject jsonObject = new JSONObject(input);
 		workspaceAdapter.addLayout(jsonObject);
 	}
