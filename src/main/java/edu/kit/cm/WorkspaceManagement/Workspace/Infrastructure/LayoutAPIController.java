@@ -1,8 +1,7 @@
 package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure;
 
-import edu.kit.cm.WorkspaceManagement.Workspace.Service.PoolController;
+import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Location;
 import edu.kit.cm.WorkspaceManagement.Workspace.Service.WorkspaceDataService;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.json.JSONObject;
 
 import edu.kit.cm.WorkspaceManagement.Workspace.Service.WorkspaceAdapter;
+
+import javax.xml.ws.Response;
 
 
 @CrossOrigin
@@ -35,6 +36,7 @@ public class LayoutAPIController {
 		return workspaceAdapter.getLayout().toString();
 	}
 
+
 	@GetMapping("/layout/id/{id}")
 	public String getWorkspaceById(@PathVariable("id") int id) {
 		return workspaceAdapter.getLayout(id).toString();
@@ -44,7 +46,7 @@ public class LayoutAPIController {
 	public String getLayoutList() {
 		return workspaceAdapter.getLayoutList().toString();
 	}
-	
+
 	@GetMapping("/layout/poolElements")
 	public String getPoolElements() {
 		try {
@@ -109,10 +111,23 @@ public class LayoutAPIController {
 		}
 	}
 
-
 	@GetMapping("/init")
 	public String init() {
 		workspaceAdapter.init();
 		return "init";
+	}
+
+
+
+
+	@GetMapping("/ResponseEntityTest")
+	public ResponseEntity<Location> responseEntityTest() {
+		Location loc = new Location(1,2);
+		return new ResponseEntity<>(loc, HttpStatus.OK);
+	}
+
+	@GetMapping("/SecureTest")
+	public String secureTest() {
+		return "Correct";
 	}
 }
