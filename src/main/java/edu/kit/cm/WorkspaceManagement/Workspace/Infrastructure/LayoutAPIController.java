@@ -26,12 +26,11 @@ public class LayoutAPIController {
 	private WorkspaceDataService workspaceDataService;
 
 	ComputerStateATISAdapter computerStateATISAdapter = new ComputerStateATISAdapter();
-	
 
-//	@RequestMapping(value = "/layout", produces = {JSON, JSON_UTF8}, method = RequestMethod.GET)
 	
 	@GetMapping("/layout")
-	public String getLayout() {		
+	public String getLayout() {
+		System.out.println("test");
 		workspaceDataService.safeWorkspace(workspaceAdapter.getWorkspace());
 		return workspaceAdapter.getLayout().toString();
 	}
