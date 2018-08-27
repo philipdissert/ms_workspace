@@ -1,13 +1,13 @@
-package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence;
+package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.WorkspaceElement;
 
-import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Location;
+import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.LocationJPA;
+import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.WorkspaceElement.WorkspaceElementIdentifier;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 @Getter@Setter
 @Entity

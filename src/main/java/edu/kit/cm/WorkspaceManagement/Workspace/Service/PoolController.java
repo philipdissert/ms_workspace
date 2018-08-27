@@ -105,10 +105,12 @@ public class PoolController{
 				"{\"pos\":[{\"x\":96,\"y\":0},{\"x\":128,\"y\":0},{\"x\":128,\"y\":32},{\"x\":96,\"y\":32}],\"portalGates\":[{\"type\":\"door\",\"pos\": [{\"x\":107,\"y\":32},{\"x\":117,\"y\":32}]}],\"id\":5},\n" +
 				"{\"pos\":[{\"x\":128,\"y\":0},{\"x\":162,\"y\":0},{\"x\":162,\"y\":32},{\"x\":128,\"y\":32}],\"portalGates\":[{\"type\":\"door\",\"pos\": [{\"x\":139,\"y\":32},{\"x\":149,\"y\":32}]}],\"id\":6}\n" +
 				"]}";
+		String openinghours = "{\"openingHours\":[{\"dayOfWeek\":\"MONDAY\",\"startTime\":\"07:00\",\"endTime\":\"21:00\"},{\"dayOfWeek\":\"TUESDAY\",\"startTime\":\"07:00\",\"endTime\":\"21:00\"},{\"dayOfWeek\":\"WEDNESDAY\",\"startTime\":\"07:00\",\"endTime\":\"21:00\"},{\"dayOfWeek\":\"THURSDAY\",\"startTime\":\"07:00\",\"endTime\":\"21:00\"},{\"dayOfWeek\":\"FRIDAY\",\"startTime\":\"07:00\",\"endTime\":\"21:00\"},{\"dayOfWeek\":\"SATURDAY\",\"startTime\":\"07:00\",\"endTime\":\"14:00\"}]}";
 
         try {
 			JSONObject obj = new JSONObject(text);
 			layout.addLayout(obj);
+			layout.addOpeningHours(new JSONObject(openinghours),1);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

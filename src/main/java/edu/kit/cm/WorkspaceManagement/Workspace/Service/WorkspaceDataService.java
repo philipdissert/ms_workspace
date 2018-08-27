@@ -1,8 +1,16 @@
 package edu.kit.cm.WorkspaceManagement.Workspace.Service;
 
+import edu.kit.cm.WorkspaceManagement.Workspace.Domain.OpeningHour;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Workspace;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.WorkspaceElement;
-import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.*;
+import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.OpeningHour.OpeningHourCrudRepository;
+import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.OpeningHour.OpeningHourJPA;
+import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.OpeningHour.OpeningHourMapper;
+import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.Room.RoomCrudRepository;
+import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.Room.RoomJPA;
+import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.Room.RoomMapper;
+import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.WorkspaceElement.WorkspaceElementCrudRepository;
+import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.WorkspaceElement.WorkspaceElementMapper;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,13 +22,23 @@ import java.util.List;
 public class WorkspaceDataService {
 
     @Autowired
-    private RoomCrudRepository roomCrudRepository;
-    @Autowired
     private WorkspaceElementCrudRepository workspaceElementCrudRepository;
     @Autowired
     private WorkspaceElementMapper workspaceElementMapper;
     @Autowired
+    private RoomCrudRepository roomCrudRepository;
+    @Autowired
     private RoomMapper roomMapper;
+    @Autowired
+    private OpeningHourCrudRepository openingHourCrudRepository;
+    @Autowired
+    private OpeningHourMapper openingHourMapper;
+
+    public void safeOpeningHours(Workspace workspace) {
+        workspace.getOpeningHours().forEach(x-> {
+            openingHourCrudRepository.save(openingHourMapper.map(x, workspace.getId()));
+        });
+    }
 
     public void safeWorkspace(Workspace workspace) {
         workspace.getWorkspaceElements().forEach(x -> {
@@ -29,6 +47,10 @@ public class WorkspaceDataService {
         });
         workspace.getRooms().forEach(x-> {
             roomCrudRepository.save(roomMapper.map(x, workspace.getId()));
+        });
+        workspace.getOpeningHours().forEach(x-> {
+            openingHourCrudRepository.save(openingHourMapper.map(x, workspace.getId()));
+            System.out.println(workspace.getId());
         });
     }
 
@@ -41,7 +63,12 @@ public class WorkspaceDataService {
         workspaceElementCrudRepository.findByWorkspaceElementIdentifierWorkspaceId(workspaceId).forEach(x-> {
             workspaceElementList.add(workspaceElementMapper.map(x));
         });
-        return new Workspace(workspaceId, workspaceElementList, roomList);
+        List<OpeningHour> openingHours = new ArrayList<>();
+        openingHourCrudRepository.findByOpeningHourIdentifierWorkspaceId(workspaceId).forEach(x-> {
+            openingHours.add(openingHourMapper.map(x));
+        });
+
+        return new Workspace(workspaceId, workspaceElementList, roomList, openingHours);
     }
 
     public List<Integer> getWorkspaceList() {

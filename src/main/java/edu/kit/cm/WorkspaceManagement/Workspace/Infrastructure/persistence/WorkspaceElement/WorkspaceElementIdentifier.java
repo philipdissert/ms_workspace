@@ -1,4 +1,4 @@
-package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence;
+package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.WorkspaceElement;
 
 import lombok.Getter;
 import lombok.Setter;

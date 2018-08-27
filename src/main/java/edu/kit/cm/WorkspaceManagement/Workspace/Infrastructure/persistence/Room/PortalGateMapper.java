@@ -1,5 +1,7 @@
-package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence;
+package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.Room;
 
+import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.LocationMapper;
+import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.Room.PortalGateJPA;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.Door;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.Passage;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.PortalGate;

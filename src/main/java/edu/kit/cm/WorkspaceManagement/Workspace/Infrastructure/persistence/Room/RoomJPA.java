@@ -1,5 +1,8 @@
-package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence;
+package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.Room;
 
+import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.LocationJPA;
+import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.Room.PortalGateJPA;
+import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.Room.RoomIdentifier;
 import lombok.Getter;
 
 import javax.persistence.ElementCollection;

@@ -1,5 +1,9 @@
-package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence;
+package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.Room;
 
+import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.LocationMapper;
+import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.Room.PortalGateMapper;
+import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.Room.RoomIdentifier;
+import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.Room.RoomJPA;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.Room;
 import org.springframework.stereotype.Component;
 

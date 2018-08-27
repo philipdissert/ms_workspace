@@ -1,9 +1,10 @@
-package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence;
+package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.WorkspaceElement;
 
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.LearningDeskLaptop;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.LearningDeskPc;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Printer;
 import edu.kit.cm.WorkspaceManagement.Workspace.Domain.WorkspaceElement;
+import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.LocationMapper;
 import org.springframework.stereotype.Component;
 
 @Component

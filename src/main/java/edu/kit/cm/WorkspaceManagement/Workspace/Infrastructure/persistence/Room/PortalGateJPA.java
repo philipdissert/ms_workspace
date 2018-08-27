@@ -1,5 +1,6 @@
-package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence;
+package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.Room;
 
+import edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.LocationJPA;
 import lombok.Getter;
 
 import javax.persistence.Embeddable;

@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.json.JSONObject;
@@ -86,9 +87,15 @@ public class LayoutAPIController {
 		JSONObject jsonObject = new JSONObject(input);
 		workspaceAdapter.addLayout(jsonObject);
 	}
+
 	@GetMapping("/opening-hours")
 	public String getOpeningHours() throws JSONException {
 		return workspaceAdapter.getOpeningHours().toString();
+	}
+
+	@PostMapping("/addOpeningHours/id/{id}")
+	public void addOpeningHours(@PathVariable int id, @RequestBody String input) {
+		workspaceAdapter.addOpeningHours(new JSONObject(input), id);
 	}
 	
 	@GetMapping("/getComputersWithState")

@@ -1,4 +1,4 @@
-package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence;
+package edu.kit.cm.WorkspaceManagement.Workspace.Infrastructure.persistence.Room;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

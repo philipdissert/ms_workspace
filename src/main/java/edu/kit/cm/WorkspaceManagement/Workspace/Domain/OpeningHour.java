@@ -12,7 +12,7 @@ public class OpeningHour {
     private LocalTime end;
     private DayOfWeek weekDay;
 
-    OpeningHour(DayOfWeek weekDay, LocalTime start, LocalTime end) {
+    public OpeningHour(DayOfWeek weekDay, LocalTime start, LocalTime end) {
         this.start = start;
         this.end = end;
         this.weekDay = weekDay;

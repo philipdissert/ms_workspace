@@ -1,19 +1,16 @@
 package edu.kit.cm.WorkspaceManagement.Workspace.Service;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.kit.cm.WorkspaceManagement.Workspace.Domain.*;
 import lombok.Getter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import edu.kit.cm.WorkspaceManagement.Workspace.Domain.LearningDeskLaptop;
-import edu.kit.cm.WorkspaceManagement.Workspace.Domain.LearningDeskPc;
-import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Location;
-import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Workspace;
-import edu.kit.cm.WorkspaceManagement.Workspace.Domain.WorkspaceElement;
-import edu.kit.cm.WorkspaceManagement.Workspace.Domain.Printer;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.Passage;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.Door;
 import edu.kit.cm.WorkspaceManagement.linkedContextes.PortalGate;
@@ -53,8 +50,10 @@ public class WorkspaceAdapter {
 		return jsonArray;
 	}
 
-	public void addLayout(JSONObject jsonObject) {
-		workspaceDataService.safeWorkspace(jsonToWorkspace(jsonObject));
+	public Workspace addLayout(JSONObject jsonObject) {
+		Workspace workspace = jsonToWorkspace(jsonObject);
+		workspaceDataService.safeWorkspace(workspace);
+		return workspace;
 	}
 
 	public void changeToLayout(int id) {
@@ -106,7 +105,7 @@ public class WorkspaceAdapter {
 	public JSONObject getOpeningHours() throws JSONException{
 		JSONObject jsonObject = new JSONObject();
 		JSONArray jsonArray = new JSONArray();
-		this.workspace.getOpeningHours().getOpeningHourList().forEach(openingHour -> {
+		this.workspace.getOpeningHours().forEach(openingHour -> {
 			JSONObject entry = new JSONObject();
 			try {
 				entry.put("dayOfWeek", openingHour.getWeekDay());
@@ -119,6 +118,25 @@ public class WorkspaceAdapter {
 		});
 		jsonObject.put("openingHours",jsonArray);
 		return jsonObject;
+	}
+
+	public void addOpeningHours(JSONObject jsonObject, int workspaceId) {
+		JSONArray jsonArray = jsonObject.getJSONArray("openingHours");
+		List<OpeningHour> openingHours = new ArrayList<>();
+		jsonArray.forEach(x-> {
+			JSONObject oh = (JSONObject) x;
+			LocalTime start = LocalTime.parse(oh.getString("startTime"));
+			LocalTime end = LocalTime.parse(oh.getString("endTime"));
+			DayOfWeek dayOfWeek = DayOfWeek.valueOf(oh.getString("dayOfWeek"));
+			openingHours.add(new OpeningHour(dayOfWeek, start, end));
+		});
+		Workspace workspace = workspaceDataService.getWorkspace(workspaceId);
+		workspace.setOpeningHours(openingHours);
+		workspaceDataService.safeWorkspace(workspace);
+
+		if (this.workspace.getId() == workspaceId) {
+			changeToLayout(workspaceId);
+		}
 	}
 	
 	private WorkspaceElement createPoolElement(int id, String type, Location location) {
@@ -162,7 +180,7 @@ public class WorkspaceAdapter {
 		changeToLayout(workspaceDataService.getWorkspaceList().get(0));
 	}
 
-	private Workspace jsonToWorkspace(JSONObject json) throws IllegalArgumentException, JSONException{
+	public Workspace jsonToWorkspace(JSONObject json) throws IllegalArgumentException, JSONException{
 		Workspace newWorkspace = new Workspace();
 		List<WorkspaceElement> workspaceElements = newWorkspace.getWorkspaceElements();
 		List<Room>rooms = newWorkspace.getRooms();

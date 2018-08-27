@@ -15,26 +15,21 @@ public class Workspace {
 	
 	private List<WorkspaceElement> workspaceElements;
 	private List<Room> rooms;
-	private OpeningHours openingHours;
+	private List<OpeningHour> openingHours;
 	private int id;
 	
 	public Workspace() {
 		this.workspaceElements = new ArrayList<>();
 		this.rooms = new ArrayList<>();
+		this.openingHours = new ArrayList<>();
 		this.id = newId++;
-		this.openingHours = new OpeningHours();
-		this.openingHours.addOpeningHour(new OpeningHour(DayOfWeek.MONDAY, LocalTime.of(7,0,0), LocalTime.of(21,0,0)));
-		this.openingHours.addOpeningHour(new OpeningHour(DayOfWeek.TUESDAY, LocalTime.of(7,0,0), LocalTime.of(21,0,0)));
-		this.openingHours.addOpeningHour(new OpeningHour(DayOfWeek.WEDNESDAY, LocalTime.of(7,0,0), LocalTime.of(21,0,0)));
-		this.openingHours.addOpeningHour(new OpeningHour(DayOfWeek.THURSDAY, LocalTime.of(7,0,0), LocalTime.of(21,0,0)));
-		this.openingHours.addOpeningHour(new OpeningHour(DayOfWeek.FRIDAY, LocalTime.of(7,0,0), LocalTime.of(21,0,0)));
-		this.openingHours.addOpeningHour(new OpeningHour(DayOfWeek.SATURDAY, LocalTime.of(7,0,0), LocalTime.of(14,0,0)));
 	}
-	public Workspace(int id, List<WorkspaceElement> workspaceElementList, List<Room> roomList) {
+	public Workspace(int id, List<WorkspaceElement> workspaceElementList, List<Room> roomList, List<OpeningHour> openingHours) {
 		this();
 		this.id = id;
 		this.workspaceElements = workspaceElementList;
 		this.rooms = roomList;
+		this.openingHours = openingHours;
 	}
 
 }
