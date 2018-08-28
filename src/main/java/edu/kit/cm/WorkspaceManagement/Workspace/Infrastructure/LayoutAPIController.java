@@ -90,6 +90,11 @@ public class LayoutAPIController {
 		workspaceAdapter.addLayout(new JSONObject(input), id);
 	}
 
+	@GetMapping("/deleteAllOpeningHours")
+	public void deleteAllOpeningHours() {
+		workspaceAdapter.deleteOpeningHoursAllOpeningHours();
+	}
+
 	@GetMapping("/opening-hours")
 	public String getOpeningHours() throws JSONException {
 		return workspaceAdapter.getOpeningHours().toString();

@@ -126,6 +126,12 @@ public class WorkspaceAdapter {
 		return jsonObject;
 	}
 
+	public void deleteOpeningHoursAllOpeningHours() {
+		ArrayList<OpeningHour> asd = new ArrayList<>();
+		workspace.setOpeningHours(asd);
+		this.workspace.setOpeningHours(asd);
+	}
+
 	public void addOpeningHours(JSONObject jsonObject, int workspaceId) {
 		JSONArray jsonArray = jsonObject.getJSONArray("openingHours");
 		List<OpeningHour> openingHours = new ArrayList<>();
