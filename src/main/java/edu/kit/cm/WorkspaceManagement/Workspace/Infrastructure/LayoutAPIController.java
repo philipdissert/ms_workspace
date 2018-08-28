@@ -30,12 +30,7 @@ public class LayoutAPIController {
 
 	
 	@GetMapping("/layout")
-	public String getLayout() {
-		System.out.println("test");
-		workspaceDataService.safeWorkspace(workspaceAdapter.getWorkspace());
-		return workspaceAdapter.getLayout().toString();
-	}
-
+	public String getLayout() {	return workspaceAdapter.getLayout().toString(); }
 
 	@GetMapping("/layout/id/{id}")
 	public String getWorkspaceById(@PathVariable("id") int id) {
@@ -45,6 +40,11 @@ public class LayoutAPIController {
 	@GetMapping("/layout-list")
 	public String getLayoutList() {
 		return workspaceAdapter.getLayoutList().toString();
+	}
+
+	@GetMapping("/get-layout-id")
+	public int getLayoutId() {
+		return workspaceAdapter.getWorkspaceId();
 	}
 
 	@GetMapping("/layout/poolElements")

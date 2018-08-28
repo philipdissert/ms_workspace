@@ -26,6 +26,8 @@ public class WorkspaceAdapter {
 
 	@Getter
 	private Workspace workspace;
+
+	public int getWorkspaceId() {return workspace.getId();}
 	
 	public WorkspaceAdapter() {
 		this.workspace = new Workspace();
