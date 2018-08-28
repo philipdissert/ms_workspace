@@ -90,6 +90,11 @@ public class LayoutAPIController {
 		workspaceAdapter.addLayout(new JSONObject(input), id);
 	}
 
+	@GetMapping("/deleteFkAll")
+	public void deleteFkAll() {
+		workspaceAdapter.deleteOpeningHoursAllOpeningHours();
+	}
+
 	@GetMapping("/opening-hours")
 	public String getOpeningHours() throws JSONException {
 		return workspaceAdapter.getOpeningHours().toString();
@@ -97,9 +102,6 @@ public class LayoutAPIController {
 
 	@PostMapping("/addOpeningHours/id/{id}")
 	public void addOpeningHours(@PathVariable int id, @RequestBody String input) {
-		//deletes All OpeningHours!
-		workspaceAdapter.deleteOpeningHoursAllOpeningHours();
-		//TODO überarbeiten
 		workspaceAdapter.addOpeningHours(new JSONObject(input), id);
 	}
 	

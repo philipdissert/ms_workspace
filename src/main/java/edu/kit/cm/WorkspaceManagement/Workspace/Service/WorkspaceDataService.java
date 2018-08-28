@@ -42,7 +42,6 @@ public class WorkspaceDataService {
 
     public void safeWorkspace(Workspace workspace) {
         workspace.getWorkspaceElements().forEach(x -> {
-            System.out.println(workspaceElementCrudRepository);
             workspaceElementCrudRepository.save(workspaceElementMapper.map(x, workspace.getId()));
         });
         workspace.getRooms().forEach(x-> {
@@ -50,7 +49,6 @@ public class WorkspaceDataService {
         });
         workspace.getOpeningHours().forEach(x-> {
             openingHourCrudRepository.save(openingHourMapper.map(x, workspace.getId()));
-            System.out.println(workspace.getId());
         });
     }
 

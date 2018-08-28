@@ -122,6 +122,11 @@ public class WorkspaceAdapter {
 				
 			}			
 		});
+		System.out.println("---------------");
+		workspace.getOpeningHours().forEach(openingHour -> {
+			System.out.println(openingHour.getWeekDay().toString());
+		});
+		System.out.println("---------------");
 		jsonObject.put("openingHours",jsonArray);
 		return jsonObject;
 	}
@@ -129,7 +134,6 @@ public class WorkspaceAdapter {
 	public void deleteOpeningHoursAllOpeningHours() {
 		ArrayList<OpeningHour> asd = new ArrayList<>();
 		workspace.setOpeningHours(asd);
-		this.workspace.setOpeningHours(asd);
 	}
 
 	public void addOpeningHours(JSONObject jsonObject, int workspaceId) {
