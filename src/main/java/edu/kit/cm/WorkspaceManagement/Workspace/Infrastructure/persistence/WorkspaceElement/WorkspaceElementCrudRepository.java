@@ -8,6 +8,6 @@ import java.util.List;
 @Repository
 public interface WorkspaceElementCrudRepository extends CrudRepository<WorkspaceElementJPA, Long> {
     public List<WorkspaceElementJPA> findByWorkspaceElementIdentifierWorkspaceId(int workspaceId);
-
+    public void deleteAllByWorkspaceElementIdentifierWorkspaceId(int workspaceId);
 
 }

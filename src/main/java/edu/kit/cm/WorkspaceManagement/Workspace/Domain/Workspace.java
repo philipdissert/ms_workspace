@@ -11,8 +11,6 @@ import lombok.Setter;
 
 @Getter@Setter
 public class Workspace {
-	private static int newId = 0;
-	
 	private List<WorkspaceElement> workspaceElements;
 	private List<Room> rooms;
 	private List<OpeningHour> openingHours;
@@ -22,8 +20,9 @@ public class Workspace {
 		this.workspaceElements = new ArrayList<>();
 		this.rooms = new ArrayList<>();
 		this.openingHours = new ArrayList<>();
-		this.id = newId++;
+		this.id = -1;
 	}
+
 	public Workspace(int id, List<WorkspaceElement> workspaceElementList, List<Room> roomList, List<OpeningHour> openingHours) {
 		this();
 		this.id = id;

@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import edu.kit.cm.WorkspaceManagement.Workspace.Service.WorkspaceAdapter;
 
+import javax.transaction.Transactional;
 import javax.xml.ws.Response;
 
 
@@ -83,11 +84,10 @@ public class LayoutAPIController {
 		return workspaceAdapter.getLayout().toString();
 	}
 
+	@Transactional
 	@PostMapping("/add-layout/id/{id}")
 	public void addLayout(@RequestBody String input,@PathVariable int id) {
-		System.out.println(input);
-		JSONObject jsonObject = new JSONObject(input);
-		workspaceAdapter.addLayout(jsonObject);
+		workspaceAdapter.addLayout(new JSONObject(input), id);
 	}
 
 	@GetMapping("/opening-hours")

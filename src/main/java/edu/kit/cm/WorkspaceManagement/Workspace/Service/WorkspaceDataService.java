@@ -80,4 +80,10 @@ public class WorkspaceDataService {
         });
         return integerList;
     }
+
+    public void deleteWorkspace(int workspaceId) {
+        workspaceElementCrudRepository.deleteAllByWorkspaceElementIdentifierWorkspaceId(workspaceId);
+        roomCrudRepository.deleteAllByRoomIdentifierWorkspaceId(workspaceId);
+        openingHourCrudRepository.deleteAllByOpeningHourIdentifierWorkspaceId(workspaceId);
+    }
 }

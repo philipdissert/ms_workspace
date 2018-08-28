@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface OpeningHourCrudRepository extends CrudRepository<OpeningHourJPA, Long> {
     public List<OpeningHourJPA> findByOpeningHourIdentifierWorkspaceId(int workspaceId);
+
+    public void deleteAllByOpeningHourIdentifierWorkspaceId(int workspaceId);
 }

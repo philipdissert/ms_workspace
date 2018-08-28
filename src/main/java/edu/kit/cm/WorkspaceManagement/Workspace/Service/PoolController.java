@@ -109,7 +109,7 @@ public class PoolController{
 
         try {
 			JSONObject obj = new JSONObject(text);
-			layout.addLayout(obj);
+			layout.addLayout(obj, 1);
 			layout.addOpeningHours(new JSONObject(openinghours),1);
 		} catch (JSONException e) {
 			e.printStackTrace();

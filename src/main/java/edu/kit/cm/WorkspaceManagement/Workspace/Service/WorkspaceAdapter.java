@@ -50,8 +50,12 @@ public class WorkspaceAdapter {
 		return jsonArray;
 	}
 
-	public Workspace addLayout(JSONObject jsonObject) {
+	public Workspace addLayout(JSONObject jsonObject, int id) {
 		Workspace workspace = jsonToWorkspace(jsonObject);
+		workspace.setId(id);
+		if(workspaceDataService.getWorkspaceList().contains(id)) {
+			workspaceDataService.deleteWorkspace(id);
+		}
 		workspaceDataService.safeWorkspace(workspace);
 		return workspace;
 	}

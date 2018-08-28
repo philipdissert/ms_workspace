@@ -8,6 +8,7 @@ import java.util.List;
 @Repository
 public interface RoomCrudRepository extends CrudRepository<RoomJPA, Long> {
     public List<RoomJPA> findByRoomIdentifierWorkspaceId(int workspaceId);
-
     public List<RoomJPA> findAll();
+
+    public void deleteAllByRoomIdentifierWorkspaceId(int workspaceId);
 }
